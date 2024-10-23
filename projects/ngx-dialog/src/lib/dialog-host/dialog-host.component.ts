@@ -1,10 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgxDialogContentDirective } from './dialog-content.directive';
+import { DialogRootBase } from './dialog-root-base';
 
 @Component({
   standalone: true,
@@ -13,20 +9,4 @@ import { NgxDialogContentDirective } from './dialog-content.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgxDialogContentDirective],
 })
-export class NgxDialogHostComponent implements OnInit {
-  @ViewChild(NgxDialogContentDirective, { static: false })
-  contentInsertionPoint!: NgxDialogContentDirective;
-
-  nativeDialogRef!: HTMLDialogElement;
-
-  constructor() {}
-
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    console.log(this.contentInsertionPoint);
-    this.nativeDialogRef.addEventListener('close', (event) => {
-      this.contentInsertionPoint.viewContainerRef.clear();
-    });
-  }
-}
+export class NgxDialogHostComponent extends DialogRootBase {}

@@ -1,4 +1,4 @@
-import { ApplicationRef, inject, Injectable, Injector } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { Observable, take, tap } from 'rxjs';
 import { DialogRef } from './dialog-ref';
 import { ComponentType } from './interfaces/component-type.interface';
@@ -9,13 +9,13 @@ import { NGX_DIALOG_CONFIG } from './providers/dialog-config.token';
 import { NGX_DIALOG_DATA } from './providers/dialog-data.token';
 import { NGX_DIALOG_REF } from './providers/dialog-ref.token';
 
+// TODO WORK ON DATA & CONFIG SIGNATURES & OVERLOAD SIGNATURES
+
 @Injectable({ providedIn: 'root' })
 export class DialogService {
-  readonly portalService = inject(PortalService);
+  private readonly portalService = inject(PortalService);
 
-  readonly parentInjector = inject(Injector);
-
-  readonly appRef = inject(ApplicationRef);
+  private readonly parentInjector = inject(Injector);
 
   openDialog<Result>(
     component: ComponentType<unknown>,
@@ -24,24 +24,15 @@ export class DialogService {
   ): Observable<Result> {
     const { hostRef, dialog } = this.portalService.hostDialog();
 
-    hostRef.changeDetectorRef.detectChanges();
-
     const dialogRef = new DialogRef<Result>(dialog);
-    const injector = this.createInjector(
-      dialogRef,
-      config,
-      data,
-      this.appRef.injector
-    );
+    const injector = this.createInjector(dialogRef, config, data);
 
-    const componentRef =
-      hostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
-        component,
-        { injector }
-      );
-    // (componentRef.instance as any).ref = dialog;
-    // (componentRef.instance as any).dref = dialogRef;
-    componentRef.changeDetectorRef.detectChanges();
+    console.log(hostRef);
+
+    hostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
+      component,
+      { injector }
+    );
 
     dialog.showModal();
 
@@ -56,11 +47,10 @@ export class DialogService {
   private createInjector<Result>(
     dialogRef: DialogRef<Result>,
     config: DialogConfig,
-    data: DialogData,
-    parentInjector: Injector
+    data: DialogData
   ): Injector {
     return Injector.create({
-      parent: parentInjector,
+      parent: this.parentInjector,
       providers: [
         {
           provide: NGX_DIALOG_REF,

@@ -5,7 +5,7 @@ import {
   createComponent,
   EmbeddedViewRef,
   inject,
-  Injectable
+  Injectable,
 } from '@angular/core';
 import { NgxDialogHostComponent } from './dialog-host/dialog-host.component';
 import { NgxDialog } from './interfaces/ngx-dialog-config.interface';
@@ -24,22 +24,20 @@ export class PortalService {
     const hostComponentRef = createComponent(NgxDialogHostComponent, {
       environmentInjector: this.appRef.injector,
     });
-    hostComponentRef.instance.nativeDialogRef = nativeDialog;
-    hostComponentRef.changeDetectorRef.detectChanges();
+    hostComponentRef.setInput('nativeDialogRef', nativeDialog);
     this.document
       .getElementById(this.ngxDialog.hostID)!
       .appendChild(nativeDialog);
     nativeDialog.appendChild(this._getComponentRootNode(hostComponentRef));
-    return {hostRef: hostComponentRef, dialog: nativeDialog };
+    return { hostRef: hostComponentRef, dialog: nativeDialog };
   }
 
   clearHost(hostRef: ComponentRef<unknown>, id: string) {
     hostRef.hostView.destroy();
     hostRef.destroy();
     const el = this.document
-      .getElementById(this.ngxDialog.hostID)!.removeChild(
-        this.document.getElementById(id)!
-      )
+      .getElementById(this.ngxDialog.hostID)!
+      .removeChild(this.document.getElementById(id)!);
     console.log(hostRef, el);
   }
 

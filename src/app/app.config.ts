@@ -8,6 +8,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideNgxDialog({ hostID: 'ngx-dialog-host' }),
+    provideNgxDialog({ hostID: 'ngx-dialog-host', htmlDialogClass: 'my-class' }),
   ],
 };

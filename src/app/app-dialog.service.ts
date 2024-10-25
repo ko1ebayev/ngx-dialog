@@ -9,13 +9,6 @@ export class AppDialogService {
   openDialogOne() {
     return this.dialogService.openDialog(
       DialogOneComponent,
-      {
-        config: {
-          backdrop: true,
-          closeOnBackdropClick: true,
-        },
-      },
-      { data: {} }
     );
   }
 }

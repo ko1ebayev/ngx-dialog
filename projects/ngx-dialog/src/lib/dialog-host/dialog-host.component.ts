@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import { DialogRef } from '../dialog-ref';
+import { DialogConfig } from '../models/dialog-config.interface';
+import { NGX_DIALOG_CONFIG } from '../providers/dialog-config.token';
 import { NGX_DIALOG_REF } from '../providers/dialog-ref.token';
 import { NgxDialogContentDirective } from './dialog-content.directive';
 
@@ -25,8 +27,13 @@ export class NgxDialogHostComponent {
   @ViewChild(NgxDialogContentDirective, { static: true })
   contentInsertionPoint!: NgxDialogContentDirective;
 
-  constructor(@Inject(NGX_DIALOG_REF) readonly dialogRef: DialogRef) {
-    this.closeOnBackdropClick();
+  constructor(
+    @Inject(NGX_DIALOG_REF) readonly dialogRef: DialogRef,
+    @Inject(NGX_DIALOG_CONFIG) readonly dialogConfig: DialogConfig
+  ) {
+    if (dialogConfig.closeOnBackdropClick) {
+      this.closeOnBackdropClick();
+    }
   }
 
   private closeOnBackdropClick() {

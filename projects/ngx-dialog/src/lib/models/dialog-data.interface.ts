@@ -1,0 +1,1 @@
+export type DialogData<D = Record<string, any>> = D;

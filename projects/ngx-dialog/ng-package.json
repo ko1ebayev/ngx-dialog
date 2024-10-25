@@ -3,5 +3,6 @@
   "dest": "../../dist/ngx-dialog",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": ["./src/lib/styles/ngx-dialog.scss"]
 }

@@ -2,7 +2,7 @@
  * Public API Surface of ngx-dialog
  */
 
-export * from './lib/dialog.service';
+export * from './lib/ngx-dialog.service';
 export * from './lib/providers/dialog-config.token';
 export * from './lib/providers/dialog-data.token';
 export * from './lib/providers/dialog-ref.token';

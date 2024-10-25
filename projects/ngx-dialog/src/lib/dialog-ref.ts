@@ -1,10 +1,13 @@
 import { Subject } from 'rxjs';
 
 export class DialogRef<Result = unknown> {
-  readonly _closed$ = new Subject<Result>();
+  private readonly _closed$ = new Subject<Result>();
   readonly closed$ = this._closed$.asObservable();
 
-  constructor(private readonly nativeDialog: HTMLDialogElement) {}
+  constructor(
+    readonly nativeDialog: HTMLDialogElement,
+    readonly dialogID: string
+  ) {}
 
   close(value: Result) {
     this.nativeDialog.close();

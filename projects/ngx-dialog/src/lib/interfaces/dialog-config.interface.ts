@@ -1,3 +1,7 @@
-export interface DialogConfig<C = Record<string, any>> {
-    config: C;
+export interface DialogConfigBase {
+  backdrop?: boolean;
+  closeOnBackdropClick?: boolean;
 }
+
+export type DialogConfig<UserConfig = Record<string, any>> = UserConfig &
+  DialogConfigBase;

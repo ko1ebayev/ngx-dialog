@@ -4,7 +4,8 @@ A simple Angular dialog solution implemented using the native HTML `<dialog>` AP
 **Requires Angular 17 or newer.**
 
 TODO  
-[] accept TemplateRefs
+[ ] accept TemplateRefs
+[ ] update demo
 
 ## Installation
 

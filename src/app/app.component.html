@@ -1,8 +1,20 @@
 This is demo page
 
 <div>
-    <h1>Open dialog one</h1>
-    <button (click)="openDialogOne()">click!</button>
+  <h1>Open dialog one</h1>
+  <button (click)="openDialogOne()">click!</button>
 </div>
+
+<div>
+  <h1>Open dialog two from template</h1>
+  <button (click)="openDialogTwo(dialogTwo)">click!</button>
+</div>
+
+<ng-template #dialogTwo let-ref let-data="data">
+  hello world im template ref dialog <br />
+  data is {{ data }}<br />
+  <button (click)="ref.close()">Close</button>
+  <!-- config is {{ config }} -->
+</ng-template>
 
 <div id="ngx-dialog-host"></div>

@@ -7,6 +7,7 @@ import {
   inject,
   Injectable,
   Injector,
+  TemplateRef,
 } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
 
@@ -32,12 +33,22 @@ export class NgxDialogService {
   private readonly document = inject(DOCUMENT);
 
   openDialog<Result>(
-    component: ComponentType<unknown>,
+    templateRef: TemplateRef<unknown>,
     config?: DialogConfig,
     data?: DialogData
   ): Observable<Result>;
   openDialog<Result>(
     component: ComponentType<unknown>,
+    config?: DialogConfig,
+    data?: DialogData
+  ): Observable<Result>;
+  openDialog<Result>(
+    componentOrTemplateRef: ComponentType<unknown> | TemplateRef<unknown>,
+    configOrData?: DialogConfig | DialogData,
+    data?: DialogData
+  ): Observable<Result>;
+  openDialog<Result>(
+    componentOrTemplateRef: ComponentType<unknown> | TemplateRef<unknown>,
     configOrData?: DialogConfig | DialogData,
     data?: DialogData
   ): Observable<Result> {
@@ -54,10 +65,71 @@ export class NgxDialogService {
       }
     }
 
-    return this._openDialog<Result>(component, config, dialogData);
+    return componentOrTemplateRef instanceof TemplateRef
+      ? this._openDialogFromTemplate<Result>(
+          componentOrTemplateRef,
+          config,
+          dialogData
+        )
+      : this._openDialogFromComponent<Result>(
+          componentOrTemplateRef,
+          config,
+          dialogData
+        );
   }
 
-  private _openDialog<Result>(
+  private _openDialogFromTemplate<Result>(
+    templateRef: TemplateRef<unknown>,
+    config?: DialogConfig,
+    data?: DialogData
+  ): Observable<Result> {
+    const normalizedConfig = this.normalizeConfig(config || {});
+
+    const dialogRef = this.createDialogRef<Result>(normalizedConfig);
+
+    const injector = createDialogInjector(this.parentInjector, {
+      dialogRef: <DialogRef<unknown>>dialogRef,
+      dialogConfig: normalizedConfig,
+      data: data || {},
+    });
+
+    const ngxDialogHostRef = createComponent(NgxDialogHostComponent, {
+      environmentInjector: this.appRef.injector,
+      elementInjector: injector,
+    });
+
+    this.appRef.attachView(ngxDialogHostRef.hostView);
+
+    this.document
+      .getElementById(this.ngxDialog.hostID)!
+      .appendChild(dialogRef.nativeDialog);
+
+    dialogRef.nativeDialog.appendChild(
+      this.getComponentRootNode(ngxDialogHostRef)
+    );
+
+    const evr = ngxDialogHostRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
+      templateRef,
+      {
+        $implicit: dialogRef,
+        data,
+        config,
+        injector,
+      }
+    );
+    console.log(evr);
+
+    dialogRef.nativeDialog.showModal();
+
+    return dialogRef.closed$.pipe(
+      take(1),
+      finalize(() => {
+        this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
+      })
+    );
+  }
+
+  private _openDialogFromComponent<Result>(
     component: ComponentType,
     config?: DialogConfig,
     data?: DialogData
@@ -133,18 +205,20 @@ export class NgxDialogService {
   }
 
   private isConfig(obj: object): obj is DialogConfig {
-    return obj && ('closeOnBackdropClick' in obj || 'htmlDialogClass' in obj); // Adjust check as per your config properties
+    return obj && ('closeOnBackdropClick' in obj || 'htmlDialogClass' in obj);
   }
 
   private normalizeConfig(config: Partial<DialogConfig>): DialogConfig {
-    let normalizedConfig = config;
+    let normalizedConfig = {};
+
     if (config.closeOnBackdropClick === undefined) {
-      normalizedConfig = { ...config, closeOnBackdropClick: true };
+      normalizedConfig = { ...normalizedConfig, closeOnBackdropClick: true };
     }
+
     if (config.htmlDialogClass === undefined) {
       if (this.ngxDialog.htmlDialogClass) {
         normalizedConfig = {
-          ...config,
+          ...normalizedConfig,
           htmlDialogClass: this.ngxDialog.htmlDialogClass,
         };
       }

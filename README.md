@@ -3,10 +3,6 @@
 A simple Angular dialog solution implemented using the native HTML `<dialog>` API. No overlays, no portals, and no bloat in bundle size.  
 **Requires Angular 17 or newer.**
 
-TODO  
-[ ] accept TemplateRefs
-[ ] update demo
-
 ## Installation
 
 Install via NPM:

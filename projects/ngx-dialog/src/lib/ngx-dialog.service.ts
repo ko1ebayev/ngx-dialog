@@ -9,7 +9,7 @@ import {
   Injector,
   TemplateRef,
 } from '@angular/core';
-import { finalize, Observable, take } from 'rxjs';
+import { defer, finalize, Observable, of, switchMap, take, tap } from 'rxjs';
 
 import { NGX_DIALOG } from '../public-api';
 import { createDialogInjector } from './create-dialog-injector';
@@ -17,7 +17,6 @@ import { NgxDialogHostComponent } from './dialog-host/dialog-host.component';
 import { DialogRef } from './dialog-ref';
 import { ComponentType } from './models/component-type.interface';
 import { DialogConfig } from './models/dialog-config.interface';
-import { DialogData } from './models/dialog-data.interface';
 
 @Injectable({ providedIn: 'root' })
 export class NgxDialogService {
@@ -34,9 +33,8 @@ export class NgxDialogService {
 
   openDialog<Result>(
     templateOrComponent: ComponentType<any> | TemplateRef<any>,
-    dataAndConfig?: { data?: DialogData; config?: DialogConfig }
+    config?: DialogConfig
   ): Observable<Result> {
-    const { data = {}, config = {} }= dataAndConfig || {};
     const normalizedConfig = this.normalizeConfig(config);
 
     const dialogRef = this.createDialogRef<Result>(normalizedConfig);
@@ -44,13 +42,16 @@ export class NgxDialogService {
     const injector = createDialogInjector(this.parentInjector, {
       dialogRef: <DialogRef<unknown>>dialogRef,
       dialogConfig: normalizedConfig,
-      data: data,
+      data: config?.data || {},
     });
 
-    const ngxDialogHostRef = createComponent(NgxDialogHostComponent, {
-      environmentInjector: this.appRef.injector,
-      elementInjector: injector,
-    });
+    const ngxDialogHostRef = createComponent(
+      config?.hostComponent || NgxDialogHostComponent,
+      {
+        environmentInjector: this.appRef.injector,
+        elementInjector: injector,
+      }
+    );
 
     this.appRef.attachView(ngxDialogHostRef.hostView);
 
@@ -67,7 +68,7 @@ export class NgxDialogService {
         templateOrComponent,
         {
           $implicit: dialogRef,
-          data,
+          data: config?.data || {},
           config,
           injector,
         }
@@ -79,20 +80,33 @@ export class NgxDialogService {
       );
     }
 
-    dialogRef.nativeDialog.showModal();
-
-    return dialogRef.closed$.pipe(
-      take(1),
-      finalize(() => {
-        this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
-      })
+    return defer(() => of(void 0)).pipe(
+      tap(() => dialogRef.nativeDialog.showModal()),
+      switchMap(() => dialogRef.closed$.pipe(
+        take(1),
+        finalize(() => {
+          this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
+        })
+      ))
     );
+    // dialogRef.nativeDialog.showModal();
+
+    // return dialogRef.closed$.pipe(
+    //   take(1),
+    //   finalize(() => {
+    //     this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
+    //   })
+    // );
   }
 
   private createDialogRef<R>(config: DialogConfig): DialogRef<R> {
     const newDialog = document.createElement('dialog');
 
     const dialogID = window.crypto.randomUUID();
+
+    newDialog.setAttribute('aria-modal', 'true');
+
+    newDialog.setAttribute('role', 'dialog');
 
     newDialog.setAttribute('id', dialogID);
 
@@ -106,7 +120,7 @@ export class NgxDialogService {
     return dialogRef;
   }
 
-  private destroyDialog(hostRef: ComponentRef<unknown>, id: string): void {
+  private destroyDialog(hostRef: ComponentRef<any>, id: string) {
     hostRef.hostView.destroy();
     hostRef.destroy();
     this.document
@@ -119,14 +133,14 @@ export class NgxDialogService {
       .rootNodes[0] as HTMLElement;
   }
 
-  private normalizeConfig(config: Partial<DialogConfig>): DialogConfig {
+  private normalizeConfig(config: DialogConfig | undefined): DialogConfig {
     let normalizedConfig = {};
 
-    if (config.closeOnBackdropClick === undefined) {
+    if (config?.closeOnBackdropClick === undefined) {
       normalizedConfig = { ...normalizedConfig, closeOnBackdropClick: true };
     }
 
-    if (config.htmlDialogClass === undefined) {
+    if (config?.htmlDialogClass === undefined) {
       if (this.ngxDialog.htmlDialogClass) {
         normalizedConfig = {
           ...normalizedConfig,

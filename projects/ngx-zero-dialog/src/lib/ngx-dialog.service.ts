@@ -9,7 +9,7 @@ import {
   Injector,
   TemplateRef,
 } from '@angular/core';
-import { defer, finalize, Observable, of, switchMap, take, tap } from 'rxjs';
+import { defer, finalize, Observable, take } from 'rxjs';
 
 import { NGX_DIALOG } from '../public-api';
 import { createDialogInjector } from './create-dialog-injector';
@@ -80,23 +80,16 @@ export class NgxDialogService {
       );
     }
 
-    return defer(() => of(void 0)).pipe(
-      tap(() => dialogRef.nativeDialog.showModal()),
-      switchMap(() => dialogRef.closed$.pipe(
+    return defer(() => {
+      dialogRef.nativeDialog.showModal();
+      
+      return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
           this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
         })
-      ))
-    );
-    // dialogRef.nativeDialog.showModal();
-
-    // return dialogRef.closed$.pipe(
-    //   take(1),
-    //   finalize(() => {
-    //     this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
-    //   })
-    // );
+      )
+    });
   }
 
   private createDialogRef<R>(config: DialogConfig): DialogRef<R> {

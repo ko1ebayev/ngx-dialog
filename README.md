@@ -8,6 +8,8 @@ TODO
 - wrap whole openDialog code in rxjs.defer
 - host component params
 - finish demo page
+- adjust general README.md
+- add readme with API reference in project folder
 
 ## Installation
 

@@ -1,0 +1,18 @@
+<h3>Dialog Data example</h3>
+
+<p class="text">
+    You can provide any data in dialogConfig when opening dialog <br>
+
+    Check out how to access it in your component or template
+</p>
+
+<button class="button" (click)="openDialogWithData()">Open dialog with data</button>
+
+<mat-tab-group>
+    <mat-tab label="Open dialog with data">
+        <app-code-snippet [code]="openDialogWithDataCode" language="typescript"></app-code-snippet>
+    </mat-tab>
+    <mat-tab label="my-dialog-with-data.component.ts">
+        <app-code-snippet [code]="dialogWithDataComponentCode" language="typescript"></app-code-snippet>
+    </mat-tab>
+</mat-tab-group>

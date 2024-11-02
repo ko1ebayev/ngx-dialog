@@ -1,0 +1,14 @@
+<h3>Component modals</h3>
+
+<p class="text">You can render whatever component in dialog</p>
+
+<button class="button" (click)="openDialog()">Open component-based dialog</button>
+
+<mat-tab-group>
+  <mat-tab label="app.component.ts">
+    <app-code-snippet [code]="appComponentCode" language="javascript"></app-code-snippet>
+  </mat-tab>
+  <mat-tab label="my-dialog.component.ts">
+    <app-code-snippet [code]="myDialogComponentCode" language="javascript"></app-code-snippet>
+  </mat-tab>
+</mat-tab-group>

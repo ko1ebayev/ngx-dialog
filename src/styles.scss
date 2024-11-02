@@ -1,8 +1,20 @@
-// @import 'ngx-dialog';
+@import '../projects/ngx-dialog/src/lib/styles/ngx-dialog.scss';
+@import './reset.scss';
+@import 'highlight.js/scss/tokyo-night-dark.scss';
 
-/* You can add global styles to this file, and also import other style files */
+// html, body {
+//     height: 100%;
+// }
+
 body {
-    
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7),
+                       rgba(0, 0, 0, 0.7)), url('../public/bg.jpg');
+    color: #fff;
+    background-attachment: fixed;
 }
 
 .my-class {
@@ -10,4 +22,38 @@ body {
     background: #fff;
     border-radius: 24px;
     max-width: 300px;
+}
+
+button.button {
+    background: #ffabf3;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    border: 0;
+    transition: background .1s ease-in-out;
+
+    &:hover {
+        background: rgba(220, 8, 220, .8);
+    }
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #fff;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+p.text {
+    padding: 10px 0;
+    font-size: 16px;
+    line-height: 24px;
 }

@@ -1,28 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AppDialogService } from './app-dialog.service';
+import { Component } from '@angular/core';
+
+import { ExamplesComponent } from "./examples/examples.component";
+import { FooterComponent } from "./footer/footer.component";
+import { HeaderComponent } from "./header/header.component";
+import { InstallationComponent } from "./installation/installation.component";
+import { OverviewComponent } from "./overview/overview.component";
+import { TocComponent } from "./toc/toc.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    InstallationComponent,
+    FooterComponent,
+    OverviewComponent,
+    ExamplesComponent,
+    TocComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'ngx-dialog-app';
-  constructor(private readonly appDialogService: AppDialogService) {}
-
-  openDialogOne() {
-    this.appDialogService.openDialogOne().subscribe((result) => {
-      alert(`Result is ${result}`);
-    });
-  }
-
-  openDialogTwo(template: TemplateRef<unknown>) {
-    this.appDialogService.open(template).subscribe((result) => {
-      alert(`Result is ${result}`);
-    });
-  }
 }

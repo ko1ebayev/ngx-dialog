@@ -1,1 +1,5 @@
 @import './ngx-dialog-reset.scss';
+
+body:has(dialog[open]) {
+    overflow: hidden;
+}

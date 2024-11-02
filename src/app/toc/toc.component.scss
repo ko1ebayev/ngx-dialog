@@ -1,0 +1,29 @@
+:host {
+    display: block;
+}
+
+.toc {
+    position: fixed;
+    padding: 0 16px;
+    top: 120px;
+    width: fit-content;
+
+    .toc-item {
+        padding: 8px 0;
+    }
+
+    .toc-subitem {
+        padding-inline-start: 16px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    
+    a {
+        text-decoration: none;
+        color: #fff;
+
+        &.active {
+            text-decoration: underline;
+        }
+    }
+}

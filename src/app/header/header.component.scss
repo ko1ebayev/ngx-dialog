@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  gap: 16px;
+  padding: 24px 32px;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.1); /* Adjust transparency */
+  backdrop-filter: blur(10px); /* Adjust blur strength */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Grotesk", sans-serif;
+
+  .logo-svg {
+    width: 32px;
+    height: auto;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.devicon-github-original-wordmark,
+.devicon-npm-original-wordmark {
+  font-size: inherit;
+  color: #fff;
+  font-size: 32px;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+}

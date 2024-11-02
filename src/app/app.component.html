@@ -1,20 +1,15 @@
-This is demo page
+<app-header></app-header>
 
-<div>
-  <h1>Open dialog one</h1>
-  <button (click)="openDialogOne()">click!</button>
-</div>
+<main class="main">
+  <app-toc></app-toc>
 
-<div>
-  <h1>Open dialog two from template</h1>
-  <button (click)="openDialogTwo(dialogTwo)">click!</button>
-</div>
+  <div class="content">
+    <app-overview id="overview"></app-overview>
+    <app-installation id="installation"></app-installation>
+    <app-examples id="examples"></app-examples>
+  </div>
+</main>
 
-<ng-template #dialogTwo let-ref let-data="data">
-  hello world im template ref dialog <br />
-  data is {{ data }}<br />
-  <button (click)="ref.close()">Close</button>
-  <!-- config is {{ config }} -->
-</ng-template>
+<app-footer></app-footer>
 
 <div id="ngx-dialog-host"></div>

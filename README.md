@@ -3,8 +3,11 @@
 A simple Angular dialog solution implemented using the native HTML `<dialog>` API. No overlays, no portals, and no bloat in bundle size.  
 **Requires Angular 17 or newer.**
 
-todo
-- remove method overloads
+TODO  
+- customizable enter/leave animations
+- wrap whole openDialog code in rxjs.defer
+- host component params
+- finish demo page
 
 ## Installation
 

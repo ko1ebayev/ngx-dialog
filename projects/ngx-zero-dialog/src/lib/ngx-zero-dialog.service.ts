@@ -23,6 +23,7 @@ import { Component } from './models/component.interface';
 import { IDialogConfig } from './models/dialog-config.interface';
 import { IDialogData } from './models/dialog-data.interface';
 import { INgxZeroDialogConfig } from './models/ngx-zero-dialog-config.interface';
+import { WithRequiredProperties } from './types/with-required-properties.type';
 
 @Injectable({ providedIn: 'root' })
 export class NgxZeroDialogService {
@@ -47,39 +48,36 @@ export class NgxZeroDialogService {
     const injector = this.createDialogInjector(this.parentInjector, {
       dialogRef: <DialogRef<unknown>>dialogRef,
       dialogConfig: normalizedConfig,
-      data: config?.data || {},
+      data: normalizedConfig.data,
     });
 
-    const ngxDialogHostRef = createComponent<any>(
-      config?.hostComponent || NgxZeroDialogDefaultHost,
-      {
-        environmentInjector: this.appRef.injector,
-        elementInjector: injector,
-      }
-    );
+    const dialogHostRef = createComponent<any>(normalizedConfig.hostComponent, {
+      environmentInjector: this.appRef.injector,
+      elementInjector: injector,
+    });
 
-    this.appRef.attachView(ngxDialogHostRef.hostView);
+    this.appRef.attachView(dialogHostRef.hostView);
 
     this.document
       .getElementById(this.ngxDialog.containerNodeID)!
       .appendChild(dialogRef.nativeDialog);
 
     dialogRef.nativeDialog.appendChild(
-      this.getComponentRootNode(ngxDialogHostRef)
+      this.getComponentRootNode(dialogHostRef)
     );
 
     if (templateOrComponent instanceof TemplateRef) {
-      ngxDialogHostRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
+      dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
         templateOrComponent,
         {
           $implicit: dialogRef,
-          data: config?.data || {},
+          data: normalizedConfig.data,
           config,
           injector,
         }
       );
     } else {
-      ngxDialogHostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
+      dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
         templateOrComponent,
         { injector }
       );
@@ -91,7 +89,7 @@ export class NgxZeroDialogService {
       return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
-          this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
+          this.destroyDialog(dialogHostRef, dialogRef.dialogID);
         })
       );
     });
@@ -131,22 +129,24 @@ export class NgxZeroDialogService {
       .rootNodes[0] as HTMLElement;
   }
 
-  private normalizeConfig(config: IDialogConfig | undefined): IDialogConfig {
-    let normalizedConfig = {};
+  private normalizeConfig(
+    config?: IDialogConfig
+  ): WithRequiredProperties<IDialogConfig> {
+    return {
+      closeOnBackdropClick: config?.closeOnBackdropClick || true,
 
-    if (config?.closeOnBackdropClick === undefined) {
-      normalizedConfig = { ...normalizedConfig, closeOnBackdropClick: true };
-    }
+      backdropClass:
+        config?.backdropClass ||
+        this.ngxDialog?.backdropClass ||
+        'ngx-zero-dialog-backdrop',
 
-    if (config?.htmlDialogClass === undefined) {
-      if (this.ngxDialog.htmlDialogClass) {
-        normalizedConfig = {
-          ...normalizedConfig,
-          htmlDialogClass: this.ngxDialog.htmlDialogClass,
-        };
-      }
-    }
-    return normalizedConfig as IDialogConfig;
+      data: config?.data || {},
+
+      hostComponent:
+        config?.hostComponent ||
+        this.ngxDialog?.defaultHostComponent ||
+        NgxZeroDialogDefaultHost,
+    } as WithRequiredProperties<IDialogConfig>;
   }
 
   private createDialogInjector(

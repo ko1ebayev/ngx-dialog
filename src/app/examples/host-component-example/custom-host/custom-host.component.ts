@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgxDialogHost } from '../../../../../projects/ngx-zero-dialog/src/lib/default-dialog-host/dialog-host.directive';
-import { NgxDialogContentDirective } from '../../../../../projects/ngx-zero-dialog/src/lib/dialog-content.directive';
+import { DialogContentDirective, NgxZeroDialogHost } from '../../../../../projects/ngx-zero-dialog/src/lib';
 
 @Component({
     selector: 'app-custom-host',
@@ -9,9 +8,9 @@ import { NgxDialogContentDirective } from '../../../../../projects/ngx-zero-dial
     styleUrl: 'custom-host.component.scss',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, NgxDialogContentDirective]
+    imports: [CommonModule, DialogContentDirective]
 })
-export class CustomHostComponent extends NgxDialogHost {
+export class CustomHostComponent extends NgxZeroDialogHost {
     constructor() {
         super();
     }

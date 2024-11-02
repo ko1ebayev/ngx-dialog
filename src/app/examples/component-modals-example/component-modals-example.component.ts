@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxDialogService } from '../../../../projects/ngx-dialog/src/public-api';
+import { NgxDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
 import { CodeSnippetComponent } from '../../code-snippet/code-snippet.component';
 import { MyDialogComponent } from './my-dialog.component';
 

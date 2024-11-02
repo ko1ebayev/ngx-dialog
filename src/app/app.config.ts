@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { provideHighlightOptions } from 'ngx-highlightjs';
 
 import { MAT_TABS_CONFIG } from '@angular/material/tabs';
-import { provideNgxDialog } from '../../projects/ngx-dialog/src/public-api';
+import { provideNgxDialog } from '../../projects/ngx-zero-dialog/src/public-api';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {

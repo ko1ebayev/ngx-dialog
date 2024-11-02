@@ -11,8 +11,8 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "paths": {
-      "ngx-dialog": [
-        "./dist/ngx-dialog"
+      "ngx-zero-dialog": [
+        "./dist/ngx-zero-dialog"
       ]
     },
     "esModuleInterop": true,

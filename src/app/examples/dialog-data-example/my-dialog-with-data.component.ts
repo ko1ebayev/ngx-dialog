@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { NGX_DIALOG_DATA } from '../../../../projects/ngx-dialog/src/public-api';
+import { NGX_DIALOG_DATA } from '../../../../projects/ngx-zero-dialog/src/public-api';
 
 @Component({
     standalone: true,

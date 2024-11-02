@@ -100,23 +100,23 @@
         }
       }
     },
-    "ngx-dialog": {
+    "ngx-zero-dialog": {
       "projectType": "library",
-      "root": "projects/ngx-dialog",
-      "sourceRoot": "projects/ngx-dialog/src",
+      "root": "projects/ng-zero-dialog",
+      "sourceRoot": "projects/ngx-zero-dialog/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ngx-dialog/ng-package.json"
+            "project": "projects/ngx-zero-dialog/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-dialog/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-zero-dialog/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/ngx-dialog/tsconfig.lib.json"
+              "tsConfig": "projects/ngx-zero-dialog/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -124,7 +124,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/ngx-dialog/tsconfig.spec.json",
+            "tsConfig": "projects/ngx-zero-dialog/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

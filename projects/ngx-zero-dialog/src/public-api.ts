@@ -1,5 +1,5 @@
 /*
- * Public API Surface of ngx-dialog
+ * Public API Surface of ngx-zero-dialog
  */
 
 export * from './lib/ngx-dialog.service';

@@ -11,19 +11,24 @@ import {
 } from '@angular/core';
 import { defer, finalize, Observable, take } from 'rxjs';
 
-import { NGX_DIALOG } from '../public-api';
-import { createDialogInjector } from './create-dialog-injector';
-import { NgxDialogHostComponent } from './dialog-host/dialog-host.component';
+import {
+  DIALOG_CONFIG,
+  DIALOG_DATA,
+  DIALOG_REF,
+  NGX_ZERO_DIALOG_CONFIG,
+} from '../public-api';
+import { NgxZeroDialogDefaultHost } from './default-dialog-host/default-dialog-host.component';
 import { DialogRef } from './dialog-ref';
-import { ComponentType } from './models/component-type.interface';
-import { DialogConfig } from './models/dialog-config.interface';
+import { Component } from './models/component.interface';
+import { IDialogConfig } from './models/dialog-config.interface';
+import { IDialogData } from './models/dialog-data.interface';
+import { INgxZeroDialogConfig } from './models/ngx-zero-dialog-config.interface';
 
 @Injectable({ providedIn: 'root' })
-export class NgxDialogService {
-  private readonly ngxDialog = inject<{
-    hostID: string;
-    htmlDialogClass?: string;
-  }>(NGX_DIALOG);
+export class NgxZeroDialogService {
+  private readonly ngxDialog = inject<INgxZeroDialogConfig>(
+    NGX_ZERO_DIALOG_CONFIG
+  );
 
   private readonly parentInjector = inject(Injector);
 
@@ -32,21 +37,21 @@ export class NgxDialogService {
   private readonly document = inject(DOCUMENT);
 
   openDialog<Result>(
-    templateOrComponent: ComponentType<any> | TemplateRef<any>,
-    config?: DialogConfig
+    templateOrComponent: Component | TemplateRef<any>,
+    config?: IDialogConfig
   ): Observable<Result> {
     const normalizedConfig = this.normalizeConfig(config);
 
     const dialogRef = this.createDialogRef<Result>(normalizedConfig);
 
-    const injector = createDialogInjector(this.parentInjector, {
+    const injector = this.createDialogInjector(this.parentInjector, {
       dialogRef: <DialogRef<unknown>>dialogRef,
       dialogConfig: normalizedConfig,
       data: config?.data || {},
     });
 
-    const ngxDialogHostRef = createComponent(
-      config?.hostComponent || NgxDialogHostComponent,
+    const ngxDialogHostRef = createComponent<any>(
+      config?.hostComponent || NgxZeroDialogDefaultHost,
       {
         environmentInjector: this.appRef.injector,
         elementInjector: injector,
@@ -56,7 +61,7 @@ export class NgxDialogService {
     this.appRef.attachView(ngxDialogHostRef.hostView);
 
     this.document
-      .getElementById(this.ngxDialog.hostID)!
+      .getElementById(this.ngxDialog.containerNodeID)!
       .appendChild(dialogRef.nativeDialog);
 
     dialogRef.nativeDialog.appendChild(
@@ -82,17 +87,17 @@ export class NgxDialogService {
 
     return defer(() => {
       dialogRef.nativeDialog.showModal();
-      
+
       return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
           this.destroyDialog(ngxDialogHostRef, dialogRef.dialogID);
         })
-      )
+      );
     });
   }
 
-  private createDialogRef<R>(config: DialogConfig): DialogRef<R> {
+  private createDialogRef<R>(config: IDialogConfig): DialogRef<R> {
     const newDialog = document.createElement('dialog');
 
     const dialogID = window.crypto.randomUUID();
@@ -105,7 +110,7 @@ export class NgxDialogService {
 
     newDialog.setAttribute(
       'class',
-      `ngx-dialog-reset ngx-dialog-host-animation ${config.htmlDialogClass}`
+      `ngx-zero-dialog-reset ngx-dialog-host-animation ${config.htmlDialogClass}`
     );
 
     const dialogRef = new DialogRef<R>(newDialog, dialogID);
@@ -117,7 +122,7 @@ export class NgxDialogService {
     hostRef.hostView.destroy();
     hostRef.destroy();
     this.document
-      .getElementById(this.ngxDialog.hostID)!
+      .getElementById(this.ngxDialog.containerNodeID)!
       .removeChild(this.document.getElementById(id)!);
   }
 
@@ -126,7 +131,7 @@ export class NgxDialogService {
       .rootNodes[0] as HTMLElement;
   }
 
-  private normalizeConfig(config: DialogConfig | undefined): DialogConfig {
+  private normalizeConfig(config: IDialogConfig | undefined): IDialogConfig {
     let normalizedConfig = {};
 
     if (config?.closeOnBackdropClick === undefined) {
@@ -141,6 +146,33 @@ export class NgxDialogService {
         };
       }
     }
-    return normalizedConfig as DialogConfig;
+    return normalizedConfig as IDialogConfig;
+  }
+
+  private createDialogInjector(
+    parentInjector: Injector,
+    tokens: {
+      dialogRef: DialogRef;
+      dialogConfig: IDialogConfig;
+      data: IDialogData;
+    }
+  ): Injector {
+    return Injector.create({
+      parent: parentInjector,
+      providers: [
+        {
+          provide: DIALOG_REF,
+          useValue: tokens.dialogRef,
+        },
+        {
+          provide: DIALOG_CONFIG,
+          useValue: tokens.dialogConfig,
+        },
+        {
+          provide: DIALOG_DATA,
+          useValue: tokens.data,
+        },
+      ],
+    });
   }
 }

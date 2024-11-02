@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
+import { NgxZeroDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
 import { CodeSnippetComponent } from '../../code-snippet/code-snippet.component';
 
 @Component({
@@ -31,7 +31,7 @@ export class TemplateModalsExampleComponent {
         }
     `;
 
-  constructor(private readonly ngxDialogService: NgxDialogService) {}
+  constructor(private readonly ngxDialogService: NgxZeroDialogService) {}
 
   openDialog(dialogTpl: TemplateRef<unknown>) {
     this.ngxDialogService.openDialog(dialogTpl).subscribe();

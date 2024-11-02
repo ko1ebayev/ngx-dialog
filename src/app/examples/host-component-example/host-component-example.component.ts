@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
+import { NgxZeroDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
 import { CodeSnippetComponent } from '../../code-snippet/code-snippet.component';
 import { MyDialogComponent } from '../component-modals-example/my-dialog.component';
 import { CustomHostComponent } from './custom-host/custom-host.component';
@@ -52,7 +52,7 @@ export class HostComponentExampleComponent implements OnInit {
 
         this.ngxDialogService.openDialog(MyDialogComponent, config);
     `
-    constructor(private readonly ngxDialogService: NgxDialogService) { }
+    constructor(private readonly ngxDialogService: NgxZeroDialogService) { }
 
     ngOnInit() { }
 

@@ -1,19 +1,20 @@
 import { Directive, inject, ViewChild } from '@angular/core';
-import { NGX_DIALOG_CONFIG } from '../providers/dialog-config.token';
-import { NGX_DIALOG_REF } from '../providers/dialog-ref.token';
-import { NgxDialogContentDirective } from './dialog-content.directive';
+
+import { DialogContentDirective } from './dialog-content.directive';
+import { DIALOG_CONFIG } from './providers/dialog-config.token';
+import { DIALOG_REF } from './providers/dialog-ref.token';
 
 @Directive()
-export class NgxDialogHost {
-  @ViewChild(NgxDialogContentDirective, { static: true })
-  contentInsertionPoint!: NgxDialogContentDirective;
+export class NgxZeroDialogHost {
+  @ViewChild(DialogContentDirective, { static: true })
+  contentInsertionPoint!: DialogContentDirective;
 
-  readonly dialogRef = inject(NGX_DIALOG_REF);
+  readonly dialogRef = inject(DIALOG_REF);
 
-  readonly config = inject(NGX_DIALOG_CONFIG) as any;
+  readonly dialogConfig = inject(DIALOG_CONFIG) as any;
 
   constructor() {
-    if (this.config.closeOnBackdropClick) {
+    if (this.dialogConfig.closeOnBackdropClick) {
       this.closeOnBackdropClick();
     }
   }

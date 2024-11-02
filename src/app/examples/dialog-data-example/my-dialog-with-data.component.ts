@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { NGX_DIALOG_DATA } from '../../../../projects/ngx-zero-dialog/src/public-api';
+import { DIALOG_DATA } from '../../../../projects/ngx-zero-dialog/src/public-api';
 
 @Component({
     standalone: true,
@@ -14,5 +14,5 @@ import { NGX_DIALOG_DATA } from '../../../../projects/ngx-zero-dialog/src/public
 })
 
 export class MyDialogWithDataComponent {
-    constructor(@Inject(NGX_DIALOG_DATA) readonly data: { foo: string, bar: string, baz: string}) { }
+    constructor(@Inject(DIALOG_DATA) readonly data: { foo: string, bar: string, baz: string}) { }
 }

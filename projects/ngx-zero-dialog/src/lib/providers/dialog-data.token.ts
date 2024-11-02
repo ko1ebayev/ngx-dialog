@@ -1,4 +1,4 @@
 import { InjectionToken } from "@angular/core";
-import { DialogData } from "../models/dialog-data.interface";
+import { IDialogData } from "../models/dialog-data.interface";
 
-export const NGX_DIALOG_DATA = new InjectionToken<DialogData>('DIALOG_DATA');
+export const DIALOG_DATA = new InjectionToken<IDialogData>('DIALOG_DATA');

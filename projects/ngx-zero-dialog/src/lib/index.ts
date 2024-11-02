@@ -1,5 +1,9 @@
-export * from './ngx-dialog.service';
+export * from './dialog-content.directive';
+export * from './models/dialog-config.interface';
+export * from './models/dialog-data.interface';
+export * from './models/ngx-zero-dialog-config.interface';
+export * from './ngx-zero-dialog-host';
+export * from './ngx-zero-dialog.service';
 export * from './providers/dialog-data.token';
 export * from './providers/dialog-ref.token';
-export * from './providers/provide-ngx-dialog';
-
+export * from './providers/provide-ngx-zero-dialog';

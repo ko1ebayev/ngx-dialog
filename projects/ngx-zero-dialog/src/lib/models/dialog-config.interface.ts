@@ -1,9 +1,9 @@
-import { ComponentType } from "./component-type.interface";
-import { DialogData } from "./dialog-data.interface";
+import { Component } from "./component.interface";
+import { IDialogData } from "./dialog-data.interface";
 
-export interface DialogConfig {
+export interface IDialogConfig {
   closeOnBackdropClick?: boolean;
   htmlDialogClass?: string;
-  data?: DialogData,
-  hostComponent?: ComponentType<any>
+  data?: IDialogData,
+  hostComponent?: Component;
 }

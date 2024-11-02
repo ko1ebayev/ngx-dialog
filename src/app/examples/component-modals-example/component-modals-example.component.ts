@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
+import { NgxZeroDialogService } from '../../../../projects/ngx-zero-dialog/src/public-api';
 import { CodeSnippetComponent } from '../../code-snippet/code-snippet.component';
 import { MyDialogComponent } from './my-dialog.component';
 
@@ -38,7 +38,7 @@ export class ComponentModalsExampleComponent {
         export class MyDialogComponent {}
     `;
 
-  constructor(private readonly ngxDialogService: NgxDialogService) {}
+  constructor(private readonly ngxDialogService: NgxZeroDialogService) {}
 
   openDialog() {
     this.ngxDialogService.openDialog(MyDialogComponent).subscribe();

@@ -18,6 +18,6 @@ export class CustomHostComponent extends NgxZeroDialogHost {
     ngOnInit() { }
 
     close() {
-        this.dialogRef.close(undefined);
+        this.dialogRef.close();
     }
 }

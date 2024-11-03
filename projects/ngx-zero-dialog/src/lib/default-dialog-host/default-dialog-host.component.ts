@@ -17,6 +17,6 @@ export class NgxZeroDialogDefaultHost extends NgxZeroDialogHost {
   }
 
   close() {
-    this.dialogRef.close(undefined);
+    this.dialogRef.close();
   }
 }

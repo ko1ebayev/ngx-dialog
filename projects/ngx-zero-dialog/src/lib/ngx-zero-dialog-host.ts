@@ -29,7 +29,7 @@ export class NgxZeroDialogHost {
         event.clientX <= rect.left + rect.width;
 
       if (!isInDialog) {
-        this.dialogRef.close(undefined);
+        this.dialogRef.close();
       }
     });
   }

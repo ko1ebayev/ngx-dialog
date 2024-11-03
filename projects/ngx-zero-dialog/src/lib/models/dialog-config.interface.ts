@@ -4,7 +4,7 @@ import { IDialogData } from './dialog-data.interface';
 export interface IDialogConfig {
   closeOnBackdropClick?: boolean;
   backdropClass?: string;
-  htmlDialogClass?: string;
+  dialogNodeClass?: string;
   data?: IDialogData;
   hostComponent?: Component;
 }

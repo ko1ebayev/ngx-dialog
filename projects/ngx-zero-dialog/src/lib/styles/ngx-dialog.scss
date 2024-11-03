@@ -1,10 +1,76 @@
-.ngx-zero-dialog-reset {
-    border: 0;
-    padding: 0;
-    display: contents;
-    background: transparent;
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 
-body:has(dialog[open]) {
-    overflow: hidden;
+.ngx-zero-dialog-reset {
+  border: 0;
+  padding: 0;
+  display: contents;
+  background: transparent;
+}
+
+// .ngx-zero-dialog-backdrop::backdrop {
+//   background: rgba(0, 0, 0, 0.5);
+//   backdrop-filter: blur(7px);
+// }
+.ngx-zero-dialog-enter[open] {
+  animation: enter 0.3s backwards ease-in;
+
+  &::backdrop {
+    animation: bdEnter 0.3s backwards ease-out;
+  }
+}
+
+.ngx-zero-dialog-leave {
+  animation: enter 0.3s ease-out forwards;
+  animation-direction: reverse;
+
+  &::backdrop {
+    animation: bdEnter 0.3s forwards ease-out;
+    animation-direction: reverse;
+  }
+}
+
+// .ngx-zero-dialog-enter {
+//   animation: enter .3s forwards ease;
+
+//   &[open]::backdrop {
+//     animation: bdEnter .3s forwards ease;
+//     // background: rgba(0, 0, 0, 0.5);
+//     // backdrop-filter: blur(7px);
+//   }
+// }
+
+// .ngx-zero-dialog-leave {
+//   animation: enter .3s ease forwards;
+//   animation-direction: reverse;
+
+//   &::backdrop {
+//     animation: bdEnter .3s ease forwards;
+//     animation-direction: reverse;
+//     // background: rgba(0, 0, 0, 0.5);
+//     // backdrop-filter: blur(7px);
+//   }
+// }
+
+@keyframes bdEnter {
+  from {
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+
+  to {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(7px);
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

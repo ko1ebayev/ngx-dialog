@@ -38,7 +38,7 @@ export class HostComponentExampleComponent implements OnInit {
             }
 
             close() {
-                this.dialogRef.close(undefined);
+                this.dialogRef.close();
             }
         }        
     `;

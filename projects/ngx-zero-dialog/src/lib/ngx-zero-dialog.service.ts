@@ -7,24 +7,22 @@ import {
   inject,
   Injectable,
   Injector,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core';
 import { defer, finalize, Observable, take } from 'rxjs';
 
-import {
-  DIALOG_CONFIG,
-  DIALOG_DATA,
-  DIALOG_REF,
-  NGX_ZERO_DIALOG_CONFIG,
-} from '../public-api';
-import { NgxZeroDialogDefaultHost } from './default-dialog-host/default-dialog-host.component';
 import { DialogRef } from './dialog-ref';
 import { Component } from './models/component.interface';
 import { IDialogConfig } from './models/dialog-config.interface';
 import { IDialogData } from './models/dialog-data.interface';
+import { DialogResult } from './models/dialog-result.type';
 import { INgxZeroDialogConfig } from './models/ngx-zero-dialog-config.interface';
-import { DialogResult } from './types/dialog-result.type';
-import { WithRequiredProperties } from './types/with-required-properties.type';
+import { WithRequiredProperties } from './models/with-required-properties.type';
+import { NgxZeroDialogDefaultHost } from './ngx-zero-dialog-default-host/ngx-zero-dialog-default-host.component';
+import { DIALOG_CONFIG } from './providers/dialog-config.token';
+import { DIALOG_DATA } from './providers/dialog-data.token';
+import { DIALOG_REF } from './providers/dialog-ref.token';
+import { NGX_ZERO_DIALOG_CONFIG } from './providers/provide-ngx-zero-dialog';
 
 @Injectable({ providedIn: 'root' })
 export class NgxZeroDialogService {
@@ -97,7 +95,7 @@ export class NgxZeroDialogService {
       return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
-          this.cleanupDialog(dialogHostRef, dialogRef.dialogID);
+          this.cleanupDialog(dialogHostRef, dialogRef.nativeDialog.id);
         })
       );
     });
@@ -105,16 +103,13 @@ export class NgxZeroDialogService {
 
   private createDialogRef<Result>(config: IDialogConfig): DialogRef<Result> {
     const newDialog = document.createElement('dialog');
-
     const dialogID = `dialog-${Date.now()}`;
 
     newDialog.setAttribute('aria-modal', 'true');
-
     newDialog.setAttribute('role', 'dialog');
-
     newDialog.setAttribute('id', dialogID);
 
-    newDialog.classList.add('ngx-zero-dialog-reset', 'ngx-zero-dialog');
+    newDialog.classList.add('ngx-zero-dialog');
 
     if (config.dialogNodeClass) {
       newDialog.classList.add(config.dialogNodeClass);
@@ -126,11 +121,7 @@ export class NgxZeroDialogService {
       newDialog.classList.add('ngx-zero-dialog-visible');
     }
 
-    const dialogRef = new DialogRef<Result>(
-      newDialog,
-      dialogID,
-      config.animated
-    );
+    const dialogRef = new DialogRef<Result>(newDialog, config.animated);
 
     return dialogRef;
   }
@@ -153,19 +144,11 @@ export class NgxZeroDialogService {
   ): WithRequiredProperties<IDialogConfig> {
     return {
       closeOnBackdropClick: config?.closeOnBackdropClick || true,
-
-      backdropClass:
-        config?.backdropClass ||
-        this.ngxZeroDialogConfig?.backdropClass ||
-        'ngx-zero-dialog-backdrop',
-
       data: config?.data || {},
-
       hostComponent:
-        config?.hostComponent ||
-        this.ngxZeroDialogConfig?.defaultHostComponent ||
+        config?.hostComponent ??
+        this.ngxZeroDialogConfig?.defaultHostComponent ??
         NgxZeroDialogDefaultHost,
-
       animated:
         this.ngxZeroDialogConfig.enableAnimations ?? config?.animated ?? true,
     } as WithRequiredProperties<IDialogConfig>;

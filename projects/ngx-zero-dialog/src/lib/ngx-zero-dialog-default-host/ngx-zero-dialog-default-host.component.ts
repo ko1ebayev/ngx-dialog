@@ -6,10 +6,12 @@ import { NgxZeroDialogHost } from '../ngx-zero-dialog-host';
 @Component({
   standalone: true,
   selector: 'ngx-zero-dialog-host',
-  templateUrl: 'default-dialog-host.component.html',
-  styleUrl: 'default-dialog-host.component.scss',
+  templateUrl: 'ngx-zero-dialog-default-host.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DialogContentDirective],
+  host: {
+    class: 'ngx-zero-dialog-host',
+  },
 })
 export class NgxZeroDialogDefaultHost extends NgxZeroDialogHost {
   constructor() {

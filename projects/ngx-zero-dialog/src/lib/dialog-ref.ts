@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { DialogResult } from './types/dialog-result.type';
+import { DialogResult } from './models/dialog-result.type';
 
 export class DialogRef<T = unknown> {
   readonly #_closed$ = new Subject<DialogResult<T>>();
@@ -8,7 +8,6 @@ export class DialogRef<T = unknown> {
 
   constructor(
     readonly nativeDialog: HTMLDialogElement,
-    readonly dialogID: string,
     readonly animated?: boolean
   ) {}
 

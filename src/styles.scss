@@ -13,27 +13,12 @@ body {
   background-attachment: fixed;
 }
 
-.my-class {
-  padding: 12px;
-  background: #fff;
-  border-radius: 24px;
-  max-width: 300px;
+dialog.ngx-zero-dialog-hidden {
+  transform: translateY(-1000px);
 }
 
-button.button {
-  background: #ffabf3;
-  color: #fff;
-  border-radius: 8px;
-  padding: 8px 12px;
-  text-align: center;
-  outline: none;
-  cursor: pointer;
-  border: 0;
-  transition: background 0.1s ease-in-out;
-
-  &:hover {
-    background: rgba(220, 8, 220, 0.8);
-  }
+dialog.ngx-zero-dialog-visible {
+  transform: translateY(0);
 }
 
 h2 {

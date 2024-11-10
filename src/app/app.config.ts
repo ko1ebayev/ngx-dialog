@@ -18,6 +18,9 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_TABS_CONFIG, useValue: { animationDuration: 100 } },
 
     // provide Ngx-zero-dialog config
-    provideNgxZeroDialog({ containerNodeID: 'ngx-zero-dialog-container' }),
+    provideNgxZeroDialog({
+      containerNodeID: 'ngx-zero-dialog-container',
+      enableAnimations: true,
+    }),
   ],
 };

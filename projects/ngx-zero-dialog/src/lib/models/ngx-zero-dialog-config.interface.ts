@@ -1,14 +1,11 @@
 import { Component } from './component.interface';
 
 export interface INgxZeroDialogConfig {
-  // ngx zero dialog container node
+  // container node to place dialogs
   containerNodeID: string;
 
-  // default fall-back host component
+  // overwrite default host component
   defaultHostComponent?: Component;
-
-  // backdrop class
-  backdropClass?: string;
 
   // additional class attached to each <dialog> node
   htmlDialogClass?: string;

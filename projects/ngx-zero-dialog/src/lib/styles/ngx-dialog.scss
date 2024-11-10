@@ -11,6 +11,12 @@ dialog.ngx-zero-dialog-reset {
   background: transparent;
 }
 
+.ngx-zero-dialog-host {
+  padding: var(--ngx-zero-dialog-host-padding, 12);
+  background: var(--ngx-zero-dialog-host-background, #fff);
+  border-radius: var(--ngx-zero-dialog-border-radius, 12);
+}
+
 dialog.ngx-zero-dialog-hidden {
   opacity: 0;
   transition: all 0.2s ease-in-out;

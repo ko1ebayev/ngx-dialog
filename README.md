@@ -4,10 +4,9 @@ A simple Angular dialog solution implemented using the native HTML `<dialog>` AP
 **Requires Angular 17 or newer.**
 
 TODO  
-- customizable enter/leave animations
-- wrap whole openDialog code in rxjs.defer
-- host component params
-- finish demo page
+- change demo page color paletter to light
+- rework demo page
+- customizable animations
 - adjust general README.md
 - add readme with API reference in project folder
 

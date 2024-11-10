@@ -7,4 +7,5 @@ export interface IDialogConfig {
   dialogNodeClass?: string;
   data?: IDialogData;
   hostComponent?: Component;
+  animated?: boolean;
 }

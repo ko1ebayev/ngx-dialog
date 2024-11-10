@@ -1,76 +1,32 @@
+// Settin `overflow: hidden` on body causes scrollbar to disappear
+// and whole body is shifted for ~15px to the right (checked on macos chrome)
 body:has(dialog[open]) {
   overflow: hidden;
 }
 
-.ngx-zero-dialog-reset {
+dialog.ngx-zero-dialog-reset {
   border: 0;
   padding: 0;
   display: contents;
   background: transparent;
 }
 
-// .ngx-zero-dialog-backdrop::backdrop {
-//   background: rgba(0, 0, 0, 0.5);
-//   backdrop-filter: blur(7px);
-// }
-.ngx-zero-dialog-enter[open] {
-  animation: enter 0.3s backwards ease-in;
+dialog.ngx-zero-dialog-hidden {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
 
   &::backdrop {
-    animation: bdEnter 0.3s backwards ease-out;
-  }
-}
-
-.ngx-zero-dialog-leave {
-  animation: enter 0.3s ease-out forwards;
-  animation-direction: reverse;
-
-  &::backdrop {
-    animation: bdEnter 0.3s forwards ease-out;
-    animation-direction: reverse;
-  }
-}
-
-// .ngx-zero-dialog-enter {
-//   animation: enter .3s forwards ease;
-
-//   &[open]::backdrop {
-//     animation: bdEnter .3s forwards ease;
-//     // background: rgba(0, 0, 0, 0.5);
-//     // backdrop-filter: blur(7px);
-//   }
-// }
-
-// .ngx-zero-dialog-leave {
-//   animation: enter .3s ease forwards;
-//   animation-direction: reverse;
-
-//   &::backdrop {
-//     animation: bdEnter .3s ease forwards;
-//     animation-direction: reverse;
-//     // background: rgba(0, 0, 0, 0.5);
-//     // backdrop-filter: blur(7px);
-//   }
-// }
-
-@keyframes bdEnter {
-  from {
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-  }
-
-  to {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(7px);
-  }
-}
-
-@keyframes enter {
-  from {
     opacity: 0;
+    transition: all 0.2s ease-in-out;
   }
+}
 
-  to {
+dialog.ngx-zero-dialog-visible {
+  opacity: 1;
+
+  &::backdrop {
     opacity: 1;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
   }
 }

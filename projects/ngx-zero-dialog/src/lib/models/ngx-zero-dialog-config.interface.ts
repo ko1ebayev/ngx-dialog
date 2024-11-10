@@ -12,4 +12,7 @@ export interface INgxZeroDialogConfig {
 
   // additional class attached to each <dialog> node
   htmlDialogClass?: string;
+
+  // enable or disable animations completely
+  enableAnimations?: boolean;
 }

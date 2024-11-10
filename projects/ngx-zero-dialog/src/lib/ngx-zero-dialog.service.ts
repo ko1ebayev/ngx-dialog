@@ -42,65 +42,62 @@ export class NgxZeroDialogService {
     templateOrComponent: Component | TemplateRef<any>,
     config?: IDialogConfig
   ): Observable<DialogResult<Result>> {
-    const normalizedConfig = this.normalizeConfig(config);
+    return defer(() => {
+      const normalizedConfig = this.normalizeConfig(config);
 
-    const dialogRef = this.createDialogRef<Result>(normalizedConfig);
+      const dialogRef = this.createDialogRef<Result>(normalizedConfig);
 
-    const injector = this.createDialogInjector(this.parentInjector, {
-      dialogRef: <DialogRef<unknown>>dialogRef,
-      dialogConfig: normalizedConfig,
-      data: normalizedConfig.data,
-    });
+      const injector = this.createDialogInjector(this.parentInjector, {
+        dialogRef: <DialogRef<unknown>>dialogRef,
+        dialogConfig: normalizedConfig,
+        data: normalizedConfig.data,
+      });
 
-    const dialogHostRef = createComponent<any>(normalizedConfig.hostComponent, {
-      environmentInjector: this.appRef.injector,
-      elementInjector: injector,
-    });
-
-    this.appRef.attachView(dialogHostRef.hostView);
-
-    this.document
-      .getElementById(this.ngxZeroDialogConfig.containerNodeID)!
-      .appendChild(dialogRef.nativeDialog);
-
-    dialogRef.nativeDialog.appendChild(
-      this.getComponentRootNode(dialogHostRef)
-    );
-
-    if (templateOrComponent instanceof TemplateRef) {
-      dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
-        templateOrComponent,
+      const dialogHostRef = createComponent<any>(
+        normalizedConfig.hostComponent,
         {
-          $implicit: dialogRef,
-          data: normalizedConfig.data,
-          config,
-          injector,
+          environmentInjector: this.appRef.injector,
+          elementInjector: injector,
         }
       );
-    } else {
-      dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
-        templateOrComponent,
-        { injector }
-      );
-    }
 
-    return defer(() => {
+      this.appRef.attachView(dialogHostRef.hostView);
+
+      this.document
+        .getElementById(this.ngxZeroDialogConfig.containerNodeID)!
+        .appendChild(dialogRef.nativeDialog);
+
+      dialogRef.nativeDialog.appendChild(
+        this.getComponentRootNode(dialogHostRef)
+      );
+
+      if (templateOrComponent instanceof TemplateRef) {
+        dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
+          templateOrComponent,
+          {
+            $implicit: dialogRef,
+            data: normalizedConfig.data,
+            config,
+            injector,
+          }
+        );
+      } else {
+        dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
+          templateOrComponent,
+          { injector }
+        );
+      }
+
       dialogRef.nativeDialog.showModal();
 
-      //////// WIP animations
-      dialogRef.nativeDialog.classList.add('ngx-zero-dialog-enter');
-      dialogRef.nativeDialog.addEventListener(
-        'animationend',
-        () => {
-          dialogRef.nativeDialog.classList.remove('ngx-zero-dialog-enter');
-        },
-        { once: true }
-      );
+      if (normalizedConfig.animated) {
+        dialogRef.nativeDialog.classList.add('ngx-zero-dialog-visible');
+      }
 
       return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
-          this.destroyDialog(dialogHostRef, dialogRef.dialogID);
+          this.cleanupDialog(dialogHostRef, dialogRef.dialogID);
         })
       );
     });
@@ -109,7 +106,7 @@ export class NgxZeroDialogService {
   private createDialogRef<Result>(config: IDialogConfig): DialogRef<Result> {
     const newDialog = document.createElement('dialog');
 
-    const dialogID = window.crypto.randomUUID();
+    const dialogID = `dialog-${Date.now()}`;
 
     newDialog.setAttribute('aria-modal', 'true');
 
@@ -117,17 +114,28 @@ export class NgxZeroDialogService {
 
     newDialog.setAttribute('id', dialogID);
 
-    newDialog.setAttribute(
-      'class',
-      `ngx-zero-dialog-reset ${config.backdropClass} ${config.dialogNodeClass}`
-    );
+    newDialog.classList.add('ngx-zero-dialog-reset', 'ngx-zero-dialog');
 
-    const dialogRef = new DialogRef<Result>(newDialog, dialogID);
+    if (config.dialogNodeClass) {
+      newDialog.classList.add(config.dialogNodeClass);
+    }
+
+    if (config.animated) {
+      newDialog.classList.add('ngx-zero-dialog-hidden');
+    } else {
+      newDialog.classList.add('ngx-zero-dialog-visible');
+    }
+
+    const dialogRef = new DialogRef<Result>(
+      newDialog,
+      dialogID,
+      config.animated
+    );
 
     return dialogRef;
   }
 
-  private destroyDialog(dialogHostRef: ComponentRef<any>, dialogID: string) {
+  private cleanupDialog(dialogHostRef: ComponentRef<any>, dialogID: string) {
     dialogHostRef.hostView.destroy();
     dialogHostRef.destroy();
     this.document
@@ -157,6 +165,9 @@ export class NgxZeroDialogService {
         config?.hostComponent ||
         this.ngxZeroDialogConfig?.defaultHostComponent ||
         NgxZeroDialogDefaultHost,
+
+      animated:
+        this.ngxZeroDialogConfig.enableAnimations ?? config?.animated ?? true,
     } as WithRequiredProperties<IDialogConfig>;
   }
 

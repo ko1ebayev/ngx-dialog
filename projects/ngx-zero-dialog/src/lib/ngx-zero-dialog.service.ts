@@ -7,10 +7,11 @@ import {
   inject,
   Injectable,
   Injector,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 import { defer, finalize, Observable, take } from 'rxjs';
 
+import { IHostData } from '../public-api';
 import { DialogRef } from './dialog-ref';
 import { Component } from './models/component.interface';
 import { IDialogConfig } from './models/dialog-config.interface';
@@ -18,10 +19,10 @@ import { IDialogData } from './models/dialog-data.interface';
 import { DialogResult } from './models/dialog-result.type';
 import { INgxZeroDialogConfig } from './models/ngx-zero-dialog-config.interface';
 import { WithRequiredProperties } from './models/with-required-properties.type';
-import { NgxZeroDialogDefaultHost } from './ngx-zero-dialog-default-host/ngx-zero-dialog-default-host.component';
 import { DIALOG_CONFIG } from './providers/dialog-config.token';
 import { DIALOG_DATA } from './providers/dialog-data.token';
 import { DIALOG_REF } from './providers/dialog-ref.token';
+import { HOST_DATA } from './providers/host-data.token';
 import { NGX_ZERO_DIALOG_CONFIG } from './providers/provide-ngx-zero-dialog';
 
 @Injectable({ providedIn: 'root' })
@@ -45,44 +46,47 @@ export class NgxZeroDialogService {
 
       const dialogRef = this.createDialogRef<Result>(normalizedConfig);
 
-      const injector = this.createDialogInjector(this.parentInjector, {
+      const dialogInjector = this.createDialogInjector(this.parentInjector, {
         dialogRef: <DialogRef<unknown>>dialogRef,
         dialogConfig: normalizedConfig,
         data: normalizedConfig.data,
       });
 
-      const dialogHostRef = createComponent<any>(
+      const hostInjector = this.createHostInjector(this.parentInjector, {
+        hostData: normalizedConfig.hostData,
+      });
+      const hostComponentRef = createComponent<any>(
         normalizedConfig.hostComponent,
         {
           environmentInjector: this.appRef.injector,
-          elementInjector: injector,
+          elementInjector: hostInjector,
         }
       );
 
-      this.appRef.attachView(dialogHostRef.hostView);
+      this.appRef.attachView(hostComponentRef.hostView);
 
       this.document
         .getElementById(this.ngxZeroDialogConfig.containerNodeID)!
         .appendChild(dialogRef.nativeDialog);
 
       dialogRef.nativeDialog.appendChild(
-        this.getComponentRootNode(dialogHostRef)
+        this.getComponentRootNode(hostComponentRef)
       );
 
       if (templateOrComponent instanceof TemplateRef) {
-        dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
+        hostComponentRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
           templateOrComponent,
           {
             $implicit: dialogRef,
             data: normalizedConfig.data,
             config,
-            injector,
+            injector: dialogInjector,
           }
         );
       } else {
-        dialogHostRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
+        hostComponentRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
           templateOrComponent,
-          { injector }
+          { injector: dialogInjector }
         );
       }
 
@@ -95,7 +99,7 @@ export class NgxZeroDialogService {
       return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
-          this.cleanupDialog(dialogHostRef, dialogRef.nativeDialog.id);
+          this.cleanupDialog(hostComponentRef, dialogRef.nativeDialog.id);
         })
       );
     });
@@ -145,12 +149,10 @@ export class NgxZeroDialogService {
     return {
       closeOnBackdropClick: config?.closeOnBackdropClick || true,
       data: config?.data || {},
-      hostComponent:
-        config?.hostComponent ??
-        this.ngxZeroDialogConfig?.defaultHostComponent ??
-        NgxZeroDialogDefaultHost,
+      hostComponent: config?.hostComponent,
       animated:
         this.ngxZeroDialogConfig.enableAnimations ?? config?.animated ?? true,
+      hostData: config?.hostData || {},
     } as WithRequiredProperties<IDialogConfig>;
   }
 
@@ -176,6 +178,23 @@ export class NgxZeroDialogService {
         {
           provide: DIALOG_DATA,
           useValue: tokens.data,
+        },
+      ],
+    });
+  }
+
+  private createHostInjector(
+    parentInjector: Injector,
+    tokens: {
+      hostData: IHostData;
+    }
+  ): Injector {
+    return Injector.create({
+      parent: parentInjector,
+      providers: [
+        {
+          provide: HOST_DATA,
+          useValue: tokens.hostData,
         },
       ],
     });

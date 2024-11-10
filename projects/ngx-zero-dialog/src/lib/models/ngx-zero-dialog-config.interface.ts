@@ -4,7 +4,7 @@ export interface INgxZeroDialogConfig {
   // container node to place dialogs
   containerNodeID: string;
 
-  // overwrite default host component
+  // default fall-back host component
   defaultHostComponent?: Component;
 
   // additional class attached to each <dialog> node

@@ -14,11 +14,11 @@ body {
 }
 
 dialog.ngx-zero-dialog-hidden {
-  transform: translateY(-1000px);
+  height: 0px;
 }
 
 dialog.ngx-zero-dialog-visible {
-  transform: translateY(0);
+  height: 400px;
 }
 
 h2 {

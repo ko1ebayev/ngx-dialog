@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    input,
-    OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  OnInit,
 } from '@angular/core';
 import { Highlight } from 'ngx-highlightjs';
 import { BehaviorSubject, interval } from 'rxjs';
@@ -28,7 +28,7 @@ export class CodeSnippetComponent implements OnInit {
   copy() {
     navigator.clipboard.writeText(this.code());
     this.showCopied.next(true);
-    interval(1000).subscribe(() => {
+    interval(1300).subscribe(() => {
       this.showCopied.next(false);
     });
   }

@@ -1,5 +1,16 @@
-<h2>Template-based dialog example</h2>
+<h2>Template-based dialog</h2>
 
-<button (click)="openTemplateBasedDialog(dialogTpl)">Open dialog</button>
+<form class="form">
+  <input
+    type="text"
+    [formControl]="countryCtrl"
+    placeholder="Where are you from?"
+  />
+  <button (click)="openTemplateBasedDialog(dialogTpl)">Open dialog</button>
+</form>
 
-<ng-template #dialogTpl>Hello from ng-template</ng-template>
+<ng-template #dialogTpl let-dialogRef let-data="data">
+  Your country is {{ data.country }}
+
+  <button (click)="dialogRef.close()">Close</button>
+</ng-template>

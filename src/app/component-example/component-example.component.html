@@ -1,4 +1,6 @@
-<h2>Component-based dialog example</h2>
+<h2>Component-based dialog</h2>
 
-<input type="text" (input)="setName($event)" />
-<button (click)="openComponentBasedDialog()">Open dialog</button>
+<form class="form">
+  <input type="text" [formControl]="nameCtrl" placeholder="What's your name?" />
+  <button (click)="openComponentBasedDialog()">Open dialog</button>
+</form>

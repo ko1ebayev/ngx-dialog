@@ -17,11 +17,11 @@ body {
 }
 
 dialog.ngx-zero-dialog-hidden {
-  height: 0px;
+  transform: translateY(1000px);
 }
 
 dialog.ngx-zero-dialog-visible {
-  height: 400px;
+  transform: unset;
 }
 
 h2 {
@@ -38,6 +38,30 @@ h3 {
 
 p.text {
   padding: 10px 0;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 24px;
+}
+
+input {
+  display: block;
+  background: #f6f8fa;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+button {
+  display: block;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 12px;
+  border: 1px solid black;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+code {
+  font-family: "Space Grotesk";
+  font-weight: bold;
 }

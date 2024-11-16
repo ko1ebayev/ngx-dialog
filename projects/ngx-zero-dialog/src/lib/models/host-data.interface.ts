@@ -1,1 +1,1 @@
-export type IHostData<D = Record<string, any>> = D;
+export type IHostData = object;

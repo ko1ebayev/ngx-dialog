@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs';
 import { DialogResult } from './models/dialog-result.type';
 
-export class DialogRef<T = unknown> {
-  readonly #_closed$ = new Subject<DialogResult<T>>();
+export class DialogRef<Result = unknown> {
+  readonly #_closed$ = new Subject<DialogResult<Result>>();
 
   readonly closed$ = this.#_closed$.asObservable();
 
@@ -11,7 +11,7 @@ export class DialogRef<T = unknown> {
     readonly animated?: boolean
   ) {}
 
-  close(value?: DialogResult<T>) {
+  close(value?: DialogResult<Result>) {
     if (this.animated) {
       this.#terminateAnimatedDialog(value);
     } else {
@@ -19,7 +19,7 @@ export class DialogRef<T = unknown> {
     }
   }
 
-  #terminateAnimatedDialog(value?: DialogResult<T>) {
+  #terminateAnimatedDialog(value?: DialogResult<Result>) {
     this.nativeDialog.classList.remove('ngx-zero-dialog-visible');
     this.nativeDialog.addEventListener(
       'transitionend',
@@ -30,7 +30,7 @@ export class DialogRef<T = unknown> {
     );
   }
 
-  #terminateDialog(value?: DialogResult<T>) {
+  #terminateDialog(value?: DialogResult<Result>) {
     this.nativeDialog.close();
     this.#_closed$.next(value);
   }

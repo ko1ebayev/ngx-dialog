@@ -11,14 +11,15 @@ import {
 } from '@angular/core';
 import { defer, finalize, Observable, take } from 'rxjs';
 
-import { DIALOG_CONFIG, IHostData } from '../public-api';
 import { DialogRef } from './dialog-ref';
 import { Component } from './models/component.interface';
 import { IDialogConfig } from './models/dialog-config.interface';
 import { IDialogData } from './models/dialog-data.interface';
 import { DialogResult } from './models/dialog-result.type';
+import { IHostData } from './models/host-data.interface';
 import { INgxZeroDialogConfig } from './models/ngx-zero-dialog-config.interface';
 import { WithRequiredProperties } from './models/with-required-properties.type';
+import { DIALOG_CONFIG } from './providers/dialog-config.token';
 import { DIALOG_DATA } from './providers/dialog-data.token';
 import { DIALOG_REF } from './providers/dialog-ref.token';
 import { HOST_DATA } from './providers/host-data.token';
@@ -45,17 +46,19 @@ export class NgxZeroDialogService {
 
       const dialogRef = this.createDialogRef<Result>(normalizedConfig);
 
-      const dialogInjector = this.createDialogInjector(this.parentInjector, {
-        dialogRef: <DialogRef<unknown>>dialogRef,
-        dialogConfig: normalizedConfig,
-        data: normalizedConfig.dialogData,
-      });
+      const dialogInjector = this.createDialogInjector(
+        this.parentInjector,
+        <DialogRef<unknown>>dialogRef,
+        normalizedConfig.dialogData
+      );
 
-      const hostInjector = this.createHostInjector(this.parentInjector, {
-        hostData: normalizedConfig.hostData,
-        dialogConfig: normalizedConfig,
-        dialogRef: <DialogRef<unknown>>dialogRef,
-      });
+      const hostInjector = this.createHostInjector(
+        this.parentInjector,
+        normalizedConfig.hostData,
+        normalizedConfig,
+        <DialogRef<unknown>>dialogRef
+      );
+
       const hostComponentRef = createComponent<any>(
         normalizedConfig.hostComponent,
         {
@@ -74,21 +77,24 @@ export class NgxZeroDialogService {
         this.getComponentRootNode(hostComponentRef)
       );
 
+      let viewRef: EmbeddedViewRef<any>;
+
       if (templateOrComponent instanceof TemplateRef) {
-        hostComponentRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
-          templateOrComponent,
-          {
-            $implicit: dialogRef,
-            data: normalizedConfig.dialogData,
-            config,
-            injector: dialogInjector,
-          }
-        );
+        viewRef =
+          hostComponentRef.instance.contentInsertionPoint.viewContainerRef.createEmbeddedView(
+            templateOrComponent,
+            {
+              $implicit: dialogRef,
+              data: normalizedConfig.dialogData,
+              injector: dialogInjector,
+            }
+          );
       } else {
-        hostComponentRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
-          templateOrComponent,
-          { injector: dialogInjector }
-        );
+        viewRef =
+          hostComponentRef.instance.contentInsertionPoint.viewContainerRef.createComponent(
+            templateOrComponent,
+            { injector: dialogInjector }
+          );
       }
 
       dialogRef.nativeDialog.showModal();
@@ -100,7 +106,11 @@ export class NgxZeroDialogService {
       return dialogRef.closed$.pipe(
         take(1),
         finalize(() => {
-          this.cleanupDialog(hostComponentRef, dialogRef.nativeDialog.id);
+          this.cleanupDialog(
+            dialogRef.nativeDialog.id,
+            hostComponentRef,
+            viewRef
+          );
         })
       );
     });
@@ -131,9 +141,16 @@ export class NgxZeroDialogService {
     return dialogRef;
   }
 
-  private cleanupDialog(dialogHostRef: ComponentRef<any>, dialogID: string) {
+  private cleanupDialog(
+    dialogID: string,
+    dialogHostRef: ComponentRef<any>,
+    viewRef: EmbeddedViewRef<any>
+  ) {
+    viewRef.destroy();
+
     dialogHostRef.hostView.destroy();
     dialogHostRef.destroy();
+
     this.document
       .getElementById(this.ngxZeroDialogConfig.containerNodeID)!
       .removeChild(this.document.getElementById(dialogID)!);
@@ -148,33 +165,30 @@ export class NgxZeroDialogService {
     config?: IDialogConfig
   ): WithRequiredProperties<IDialogConfig> {
     return {
-      closeOnBackdropClick: config?.closeOnBackdropClick || true,
-      dialogData: config?.dialogData || {},
+      closeOnBackdropClick: config?.closeOnBackdropClick ?? true,
+      dialogData: config?.dialogData ?? {},
       hostComponent: config?.hostComponent,
       animated:
         this.ngxZeroDialogConfig.enableAnimations ?? config?.animated ?? true,
-      hostData: config?.hostData || {},
+      hostData: config?.hostData ?? {},
     } as WithRequiredProperties<IDialogConfig>;
   }
 
   private createDialogInjector(
     parentInjector: Injector,
-    tokens: {
-      dialogRef: DialogRef;
-      dialogConfig: IDialogConfig;
-      data: IDialogData;
-    }
+    dialogRef: DialogRef,
+    data: IDialogData
   ): Injector {
     return Injector.create({
       parent: parentInjector,
       providers: [
         {
           provide: DIALOG_REF,
-          useValue: tokens.dialogRef,
+          useValue: dialogRef,
         },
         {
           provide: DIALOG_DATA,
-          useValue: tokens.data,
+          useValue: data,
         },
       ],
     });
@@ -182,26 +196,24 @@ export class NgxZeroDialogService {
 
   private createHostInjector(
     parentInjector: Injector,
-    tokens: {
-      hostData: IHostData;
-      dialogConfig: IDialogConfig;
-      dialogRef: DialogRef;
-    }
+    hostData: IHostData,
+    dialogConfig: IDialogConfig,
+    dialogRef: DialogRef
   ): Injector {
     return Injector.create({
       parent: parentInjector,
       providers: [
         {
           provide: HOST_DATA,
-          useValue: tokens.hostData,
+          useValue: hostData,
         },
         {
           provide: DIALOG_CONFIG,
-          useValue: tokens.dialogConfig,
+          useValue: dialogConfig,
         },
         {
           provide: DIALOG_REF,
-          useValue: tokens.dialogRef,
+          useValue: dialogRef,
         },
       ],
     });

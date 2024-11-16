@@ -1,1 +1,1 @@
-export type IDialogData<D = Record<string, any>> = D;
+export type IDialogData = object;

@@ -10,11 +10,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "paths": {
-      "ngx-zero-dialog": [
-        "./dist/ngx-zero-dialog"
-      ]
-    },
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
@@ -23,10 +18,10 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"],
+    "paths": {
+      "ngx-zero-dialog": ["./dist/ngx-zero-dialog"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

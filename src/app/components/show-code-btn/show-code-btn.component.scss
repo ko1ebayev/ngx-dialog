@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  width: fit-content;
+  gap: 8px;
+  align-items: center;
+  font-size: 16px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  &[data-active="true"] {
+    background: #f6f8fa;
+
+    &:hover {
+      border: 1px solid transparent;
+    }
+  }
+
+  &::selection {
+    background: unset;
+  }
+}

@@ -1,0 +1,22 @@
+<h2>Custom animations</h2>
+
+<p class="text">
+  Ngx-zero-dialog comes with simple pre-built animation, take a look:
+</p>
+<app-code-snippet
+  language="css"
+  [code]="defaultAnimationCode"
+></app-code-snippet>
+
+<p class="text mt-24">
+  This demo page uses customized animation which plays with transform property.
+  <code>.ngx-zero-dialog-hidden</code> is a starting hidden state of
+  dialog, and <code>.ngx-zero-dialog-visible</code> is a final state of
+  dialog. When <code>enableAnimations: false</code> is provided in config - only
+  <code>.ngx-zero-dialog-visible</code> will be applied to dialog element and
+  dialog won't play animation. <br>
+
+  To adjust animation, add this scss in your global styles.scss file:
+</p>
+
+<app-code-snippet language="css" [code]="customAnimation"></app-code-snippet>

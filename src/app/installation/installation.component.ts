@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
+
+import { CodeSnippetComponent } from '../components/code-snippet/code-snippet.component';
 
 @Component({
   standalone: true,
@@ -13,16 +14,22 @@ import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
 })
 export class InstallationComponent implements OnInit {
   readonly installCode = `
-        yarn add ngx-zero-dialog
-    `;
+    yarn add ngx-zero-dialog
+  `;
 
   readonly providerCode = `
-        provideNgxDialog({ hostID: 'ngx-dialog-container' })
-    `;
+    import { provideNgxDialog } from 'ngx-zero-dialog';
+
+    providers: [ provideNgxDialog({ hostID: 'ngx-dialog-container' }) ]
+  `;
 
   readonly containerCode = `
-        <div id="ngx-dialog-container"></div>
-    `;
+    <div id="ngx-dialog-container"></div>
+  `;
+
+  readonly importStylesCode = `
+    @import 'node_modules/ngx-zero-dialog/styles/ngx-zero-dialog.scss';
+  `;
 
   constructor() {}
 

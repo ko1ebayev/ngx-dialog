@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
     standalone: true,
@@ -7,11 +6,5 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     templateUrl: 'footer.component.html',
     styleUrl: 'footer.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule]
 })
-
-export class FooterComponent implements OnInit {
-    constructor() { }
-
-    ngOnInit() { }
-}
+export class FooterComponent {}

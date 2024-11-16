@@ -12,7 +12,7 @@ interface AppDialogHostData {
   styleUrl: 'app-dialog-host.component.scss',
   imports: [DialogContentDirective],
 })
-export class AppDialogHostComponent extends NgxZeroDialogHost<AppDialogHostData> {
+export class DialogHostComponent extends NgxZeroDialogHost<AppDialogHostData> {
   constructor() {
     super();
   }

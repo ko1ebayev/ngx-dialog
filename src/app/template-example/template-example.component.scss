@@ -1,10 +1,41 @@
 :host {
-    display: block;
-    padding: 24px 0;
+  display: block;
+  padding: 24px 0;
+}
+
+h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .form {
-    padding: 24px 0;
-    display: flex;
-    gap: 12px;
+  padding: 24px 0;
+  display: flex;
+  gap: 12px;
+}
+
+mat-tab-group {
+  padding: 24px 0;
+}
+
+.template-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+
+  .country {
+    font-family: "Space Grotesk";
+    font-weight: bold;
+  }
+
+  button {
+    width: 300px;
+  }
+}
+
+app-code-snippet {
+  border-radius: 0 0 12px 12px;
 }

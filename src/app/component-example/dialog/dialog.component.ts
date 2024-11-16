@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
 } from '@angular/core';
-import {
-    DIALOG_DATA,
-    DIALOG_REF,
-} from '../../../../projects/ngx-zero-dialog/src/public-api';
+import { DIALOG_DATA, DIALOG_REF } from 'ngx-zero-dialog';
+
 
 export interface ComponentDialogData {
   name: string;
@@ -29,7 +27,7 @@ export class DialogComponent {
 
   private readonly dialogRef = inject(DIALOG_REF);
 
-  private readonly result = signal('No response...');
+  private readonly result = signal('');
 
   setResult(event: Event) {
     const value = (event.target as HTMLInputElement).value;

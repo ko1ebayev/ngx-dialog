@@ -1,6 +1,33 @@
-<h2>Component-based dialog</h2>
+<h2>
+  Component-based dialog
+  <app-show-code-btn
+    [active]="mode() === 'code'"
+    (click)="toggleCode()"
+  ></app-show-code-btn>
+</h2>
 
-<form class="form">
+@if (mode() === 'code') {
+<mat-tab-group disableRipple>
+  <mat-tab label="HTML">
+    <app-code-snippet language="html" [code]="htmlCode"></app-code-snippet>
+  </mat-tab>
+  <mat-tab label="TS">
+    <app-code-snippet language="typescript" [code]="tsCode"></app-code-snippet>
+  </mat-tab>
+  <mat-tab label="dialog.component.html">
+    <app-code-snippet language="html" [code]="dialogTemplateCode"></app-code-snippet>
+  </mat-tab>
+  <mat-tab label="dialog-host.component.ts">
+    <app-code-snippet language="typescript" [code]="dialogHostCode"></app-code-snippet>
+  </mat-tab>
+</mat-tab-group>
+} @else {
+<div class="form">
   <input type="text" [formControl]="nameCtrl" placeholder="What's your name?" />
   <button (click)="openComponentBasedDialog()">Open dialog</button>
-</form>
+
+  @if (result(); as result) {
+    Dialog result: {{ result }}
+  }
+</div>
+}

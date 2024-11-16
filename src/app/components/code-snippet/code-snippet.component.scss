@@ -1,15 +1,16 @@
 :host {
   position: relative;
+  display: block;
+  overflow: hidden;
 }
 pre {
   display: flex;
 }
 
 .code-snippet {
-  border-radius: 12px;
   line-height: 24px;
   width: 100%;
-  font-family: "Space Grotesk";
+  font-family: monospace;
   background: #f6f8fa;
 }
 

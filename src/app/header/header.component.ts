@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
@@ -7,6 +6,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: 'header.component.html',
   styleUrl: 'header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
 })
 export class HeaderComponent {}

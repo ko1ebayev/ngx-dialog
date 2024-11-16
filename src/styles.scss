@@ -1,6 +1,12 @@
-@import "../projects/ngx-zero-dialog/src/lib/styles/ngx-dialog.scss";
 @import "./reset.scss";
 @import "highlight.js/scss/github.scss";
+@import "../dist/ngx-zero-dialog/styles/ngx-zero-dialog.scss";
+
+:root {
+  --mat-app-primary: rgba(0, 0, 0, 0.8);
+  --mdc-tab-indicator-active-indicator-color: var(--mat-app-primary);
+  --mat-tab-header-active-focus-indicator-color: var(--mat-app-primary);
+}
 
 body {
   font-family: "Roboto", sans-serif;
@@ -25,12 +31,14 @@ dialog.ngx-zero-dialog-visible {
 }
 
 h2 {
+  display: block;
   font-size: 32px;
   font-weight: bold;
   color: #000;
 }
 
 h3 {
+  display: block;
   font-size: 24px;
   font-weight: bold;
   color: #000;
@@ -39,7 +47,7 @@ h3 {
 p.text {
   padding: 10px 0;
   font-size: 18px;
-  line-height: 24px;
+  line-height: 28px;
 }
 
 input {
@@ -59,6 +67,7 @@ button {
   border: 1px solid black;
   padding: 8px 16px;
   font-size: 16px;
+  cursor: pointer;
 }
 
 code {

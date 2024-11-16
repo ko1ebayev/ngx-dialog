@@ -18,7 +18,7 @@ import { BehaviorSubject, interval } from 'rxjs';
 })
 export class CodeSnippetComponent implements OnInit {
   readonly code = input.required<string>();
-  readonly language = input.required<'html' | 'javascript' | 'typescript'>();
+  readonly language = input.required<'html' | 'javascript' | 'typescript' | 'css'>();
   readonly showCopied = new BehaviorSubject(false);
 
   constructor() {}

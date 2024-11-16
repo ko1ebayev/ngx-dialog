@@ -1,16 +1,41 @@
-<h2>Template-based dialog</h2>
+<h2>
+  Template-based dialog
+  <app-show-code-btn
+    [active]="this.mode() === 'code'"
+    (click)="toggleCode()"
+  ></app-show-code-btn>
+</h2>
 
-<form class="form">
+@if (mode() === 'demo') {
+<div class="form">
   <input
     type="text"
     [formControl]="countryCtrl"
     placeholder="Where are you from?"
   />
   <button (click)="openTemplateBasedDialog(dialogTpl)">Open dialog</button>
-</form>
+</div>
+} @else {
+<mat-tab-group disableRipple>
+  <mat-tab label="HTML">
+    <app-code-snippet language="html" [code]="htmlCode"></app-code-snippet>
+  </mat-tab>
+  <mat-tab label="TS">
+    <app-code-snippet language="typescript" [code]="tsCode"></app-code-snippet>
+  </mat-tab>
+  <mat-tab label="dialog-host.component.ts">
+    <app-code-snippet
+      language="typescript"
+      [code]="dialogHostCode"
+    ></app-code-snippet>
+  </mat-tab>
+</mat-tab-group>
+}
 
 <ng-template #dialogTpl let-dialogRef let-data="data">
-  Your country is {{ data.country }}
-
-  <button (click)="dialogRef.close()">Close</button>
+  <div class="template-dialog">
+    Your country is <span class="country">{{ data.country || 'Unknown' }}</span>
+  
+    <button (click)="dialogRef.close()">Got it</button>
+  </div>
 </ng-template>

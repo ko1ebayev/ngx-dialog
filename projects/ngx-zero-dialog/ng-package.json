@@ -4,5 +4,7 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "assets": ["./src/lib/styles/ngx-dialog.scss"]
+  "assets": [
+    "styles/ngx-zero-dialog.scss"
+  ]
 }

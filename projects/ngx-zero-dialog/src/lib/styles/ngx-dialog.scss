@@ -9,6 +9,7 @@ dialog.ngx-zero-dialog {
   padding: 0;
   display: contents;
   background: transparent;
+  box-sizing: border-box;
 }
 
 dialog.ngx-zero-dialog-hidden {

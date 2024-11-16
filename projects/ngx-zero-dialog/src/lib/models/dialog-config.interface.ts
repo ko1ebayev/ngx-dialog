@@ -7,6 +7,6 @@ export interface IDialogConfig {
   hostData?: IHostData;
   closeOnBackdropClick?: boolean;
   dialogNodeClass?: string;
-  data?: IDialogData;
+  dialogData?: IDialogData;
   animated?: boolean;
 }

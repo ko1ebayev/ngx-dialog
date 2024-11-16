@@ -1,9 +1,21 @@
+:host {
+  position: relative;
+}
 pre {
-    display: flex;
+  display: flex;
 }
 
 .code-snippet {
-    line-height: 24px;
-    width: 100%;
-    font-family: 'Space Grotesk';
+  border-radius: 12px;
+  line-height: 24px;
+  width: 100%;
+  font-family: "Space Grotesk";
+  background: #f6f8fa;
+}
+
+.copy {
+  position: absolute;
+  cursor: pointer;
+  top: 16px;
+  right: 16px;  
 }

@@ -1,16 +1,19 @@
 @import "../projects/ngx-zero-dialog/src/lib/styles/ngx-dialog.scss";
 @import "./reset.scss";
-@import "highlight.js/scss/tokyo-night-dark.scss";
+@import "highlight.js/scss/github.scss";
 
 body {
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("../public/bg.jpg");
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   background-attachment: fixed;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 dialog.ngx-zero-dialog-hidden {
@@ -24,13 +27,13 @@ dialog.ngx-zero-dialog-visible {
 h2 {
   font-size: 32px;
   font-weight: bold;
-  color: #fff;
+  color: #000;
 }
 
 h3 {
   font-size: 24px;
   font-weight: bold;
-  color: #fff;
+  color: #000;
 }
 
 p.text {

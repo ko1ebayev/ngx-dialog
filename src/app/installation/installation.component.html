@@ -1,27 +1,21 @@
 <h2>Installation</h2>
 
-<p class="text">
-  Install ngx-dialog in your app and setup container component to store native
-  dialog nodes
-</p>
+<p class="text">Install ngx-zero-dialog</p>
+<app-code-snippet [code]="installCode" language="javascript"></app-code-snippet>
 
-<mat-tab-group>
-  <mat-tab label="Install">
-    <app-code-snippet
-      [code]="installCode"
-      language="javascript"
-    ></app-code-snippet>
-  </mat-tab>
-  <mat-tab label="Provide in app.config.ts">
-    <app-code-snippet
-      [code]="providerCode"
-      language="javascript"
-    ></app-code-snippet>
-  </mat-tab>
-  <mat-tab label="Place container in app.component.ts">
-    <app-code-snippet
-      [code]="containerCode"
-      language="javascript"
-    ></app-code-snippet>
-  </mat-tab>
-</mat-tab-group>
+<p class="text">
+  Provide configuration in <code>app.config.ts</code> or
+  <code>app.module.ts</code>
+</p>
+<app-code-snippet
+  [code]="providerCode"
+  language="javascript"
+></app-code-snippet>
+
+<p class="text">
+  Setup dialog container in your root component with specific id
+</p>
+<app-code-snippet
+  [code]="containerCode"
+  language="javascript"
+></app-code-snippet>

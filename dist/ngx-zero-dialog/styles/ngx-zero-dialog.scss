@@ -1,0 +1,33 @@
+// Settin `overflow: hidden` on body causes scrollbar to disappear
+// and whole body is shifted for ~15px to the right (checked on macos chrome)
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+dialog.ngx-zero-dialog {
+  border: 0;
+  padding: 0;
+  display: contents;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+dialog.ngx-zero-dialog-hidden {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+
+  &::backdrop {
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+dialog.ngx-zero-dialog-visible {
+  opacity: 1;
+
+  &::backdrop {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+  }
+}

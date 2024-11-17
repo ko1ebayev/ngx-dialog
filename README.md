@@ -1,24 +1,17 @@
-# Ngx Dialog
+# ngx-zero-dialog
 
-A simple Angular dialog solution implemented using the native HTML `<dialog>` API. No overlays, no portals, and no bloat in bundle size.  
-**Requires Angular 17 or newer.**
-
-TODO  
-- change demo page color paletter to light
-- rework demo page
-- customizable animations
-- adjust general README.md
-- add readme with API reference in project folder
+A lightweight Angular library for managing dialogs using the native `<dialog>` API. With `ngx-zero-dialog`, you can create dynamic, accessible, and customizable dialogs in your Angular applications.  
+** ⚠️ Requires Angular 16 or newer.**
 
 ## Installation
 
 Install via NPM:
 ```bash
-npm install ngx-dialog
+npm install ngx-zero-dialog
 ```
-or via YARN:
+or YARN:
 ```bash
-yarn add ngx-dialog
+yarn add ngx-zero-dialog
 ```
 
 ## Setup with Your Application

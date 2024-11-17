@@ -1,25 +1,30 @@
 @import "./reset.scss";
 @import "highlight.js/scss/github.scss";
-@import "../dist/ngx-zero-dialog/styles/ngx-zero-dialog.scss";
+// @import "../dist/ngx-zero-dialog/styles/ngx-zero-dialog.scss";
+@import "../projects/ngx-zero-dialog/styles/ngx-zero-dialog.scss";
+
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
 
 :root {
   --mat-app-primary: rgba(0, 0, 0, 0.8);
   --mdc-tab-indicator-active-indicator-color: var(--mat-app-primary);
   --mat-tab-header-active-focus-indicator-color: var(--mat-app-primary);
+
+  font-smooth: antialised;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 body {
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
-  background-size: cover;
-  background-repeat: no-repeat;
   background-color: #fff;
   color: #000;
-  background-attachment: fixed;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 dialog.ngx-zero-dialog-hidden {

@@ -1,7 +1,10 @@
 <div class="greetings">Hello, {{ data.name }}</div>
-<input
-  type="text"
-  placeholder="How old are you?"
-  (input)="setResult($event)"
-/>
-<button (click)="close()">Submit</button>
+
+<div class="form">
+  <input
+    type="text"
+    placeholder="How old are you?"
+    (input)="setResult($event)"
+  />
+  <button (click)="close()">Submit</button>
+</div>

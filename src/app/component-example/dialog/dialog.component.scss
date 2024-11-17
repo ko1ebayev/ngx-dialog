@@ -1,4 +1,11 @@
 :host {
-    display: block;
-    padding: 32px;
+  display: block;
+  padding: 32px;
+}
+
+.form {
+  padding: 24px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }

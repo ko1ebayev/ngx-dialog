@@ -1,11 +1,11 @@
 # ngx-zero-dialog
 
 A lightweight Angular library for managing dialogs using the native `<dialog>` API. With `ngx-zero-dialog`, you can create dynamic, accessible, and customizable dialogs in your Angular applications.  
-** ⚠️ Requires Angular 16 or newer.**
+> ⚠️ Requires Angular 16 or newer!
 
-## Installation
+## Installation and set-up
 
-Install via NPM:
+1. Install via NPM:
 ```bash
 npm install ngx-zero-dialog
 ```
@@ -13,16 +13,12 @@ or YARN:
 ```bash
 yarn add ngx-zero-dialog
 ```
-
-## Setup with Your Application
-1) Place the Dialog Host Container
-Add a container for the dialog host in your root app.component.html file:
+2. Next, place dialog container in your root component template  
 ```html
 <div id="ngx-dialog-host"></div>
 ```
-2) Provide Configuration
-Register the dialog provider with configuration in app.module.ts or app.config.ts:
-```typescript
+3. Provide Configuration
+   ```typescript
 import { provideNgxDialog } from 'ngx-dialog';
 
 @NgModule({
@@ -33,16 +29,15 @@ import { provideNgxDialog } from 'ngx-dialog';
 })
 export class AppModule {}
 ```
-3) Show Dialogs!
+
 Now you’re ready to use the dialog service to open dialogs in your app.
 
 ## NgxDialogService
 The ```NgxDialogService``` provides a simple API to open dialogs. The primary method is:
 ```typescript
 openDialog<Result>(
-  component: ComponentType<unknown>,
-  config?: DialogConfig,
-  data?: DialogData
+  componentOrTemplate: Component | TemplateRef,
+  config?: IDialogConfig,
 ): Observable<Result>;
 ```
 

@@ -75,6 +75,15 @@ button {
   cursor: pointer;
 }
 
+blockquote {
+	padding: 10px 10px 15px;
+	background: #f6f8fa;
+	border-left: 2px solid #c7d9f5;
+	color: #005cc5;
+  margin: 12px;
+  line-height: 20px;
+}
+
 code {
   font-family: "Space Grotesk";
   font-weight: bold;

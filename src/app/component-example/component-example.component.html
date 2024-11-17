@@ -7,27 +7,36 @@
 </h2>
 
 @if (mode() === 'code') {
-<mat-tab-group disableRipple>
-  <mat-tab label="HTML">
-    <app-code-snippet language="html" [code]="htmlCode"></app-code-snippet>
-  </mat-tab>
-  <mat-tab label="TS">
-    <app-code-snippet language="typescript" [code]="tsCode"></app-code-snippet>
-  </mat-tab>
-  <mat-tab label="dialog.component.html">
-    <app-code-snippet language="html" [code]="dialogTemplateCode"></app-code-snippet>
-  </mat-tab>
-  <mat-tab label="dialog-host.component.ts">
-    <app-code-snippet language="typescript" [code]="dialogHostCode"></app-code-snippet>
-  </mat-tab>
-</mat-tab-group>
-} @else {
-<div class="form">
-  <input type="text" [formControl]="nameCtrl" placeholder="What's your name?" />
-  <button (click)="openComponentBasedDialog()">Open dialog</button>
+  <blockquote>
+    To make dialog dimensions works normal in Safari, you should <br />
+    explicitly set <code>height: auto</code> for your dialog host element
+  </blockquote>
 
-  @if (result(); as result) {
-    Dialog result: {{ result }}
-  }
-</div>
+  <mat-tab-group disableRipple>
+    <mat-tab label="HTML">
+      <app-code-snippet language="html" [code]="htmlCode"></app-code-snippet>
+    </mat-tab>
+    <mat-tab label="TS">
+      <app-code-snippet language="typescript" [code]="tsCode"></app-code-snippet>
+    </mat-tab>
+    <mat-tab label="dialog.component.html">
+      <app-code-snippet
+        language="html"
+        [code]="dialogTemplateCode"
+      ></app-code-snippet>
+    </mat-tab>
+    <mat-tab label="dialog-host.component.ts">
+      <app-code-snippet
+        language="typescript"
+        [code]="dialogHostCode"
+      ></app-code-snippet>
+    </mat-tab>
+  </mat-tab-group>
+} @else {
+  <div class="form">
+    <input type="text" [formControl]="nameCtrl" placeholder="What's your name?" />
+    <button (click)="openComponentBasedDialog()">Open dialog</button>
+
+    @if (result(); as result) { Dialog result: {{ result }} }
+  </div>
 }

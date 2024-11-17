@@ -10,6 +10,7 @@ dialog.ngx-zero-dialog {
   display: contents;
   background: transparent;
   box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 dialog.ngx-zero-dialog-hidden {

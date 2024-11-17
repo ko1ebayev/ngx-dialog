@@ -5,12 +5,12 @@ import {
   signal,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgxZeroDialogService } from 'ngx-zero-dialog';
 
-import { MatTabsModule } from '@angular/material/tabs';
 import { CodeSnippetComponent } from '../components/code-snippet/code-snippet.component';
 import { ShowCodeBtnComponent } from '../components/show-code-btn/show-code-btn.component';
-import { DialogHostComponent } from './dialog-host/app-dialog-host.component';
+import { DialogHostComponent } from './dialog-host/dialog-host.component';
 import {
   ComponentDialogResult,
   DialogComponent,

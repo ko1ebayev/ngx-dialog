@@ -1,13 +1,12 @@
 :host {
-  display: block;
-  background: #fff;
-  padding: 12px;
-  border-radius: 12px;
-  height: 100%;
-  box-sizing: border-box;
   position: relative;
+  display: block;
+  padding: 12px;
   width: 500px;
+  height: auto;
   max-height: 500px;
+  background: #fff;
+  border-radius: 12px;
 }
 
 .title {

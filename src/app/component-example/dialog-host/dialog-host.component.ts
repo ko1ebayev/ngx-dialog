@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { DialogContentDirective, NgxZeroDialogHost } from 'ngx-zero-dialog';
 
-interface AppDialogHostData {
+interface DialogHostData {
   title: string;
 }
 
 @Component({
   standalone: true,
-  selector: 'app-dialog-host',
-  templateUrl: 'app-dialog-host.component.html',
-  styleUrl: 'app-dialog-host.component.scss',
+  selector: 'dialog-host',
+  templateUrl: 'dialog-host.component.html',
+  styleUrl: 'dialog-host.component.scss',
   imports: [DialogContentDirective],
 })
-export class AppDialogHostComponent extends NgxZeroDialogHost<AppDialogHostData> {
+export class DialogHostComponent extends NgxZeroDialogHost<DialogHostData> {
   constructor() {
     super();
   }

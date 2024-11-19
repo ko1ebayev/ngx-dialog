@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "demo:build": "ng build --configuration=production --base-href=https://ko1ebayev.github.io/ngx-zero-dialog/"
   },
   "private": true,
   "dependencies": {

@@ -22,7 +22,7 @@ import { provideNgxZeroDialog } from 'ngx-zero-dialog';
 @NgModule({
   providers: [
     // other providers
-    provideNgxZeroDialog({ hostID: 'ngx-dialog-host' }),
+    provideNgxZeroDialog({ containerNodeID: 'ngx-dialog-host' }),
   ],
 })
 export class AppModule {}

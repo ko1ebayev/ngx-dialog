@@ -32,7 +32,13 @@ mat-tab-group {
   }
 
   button {
-    width: 300px;
+    width: calc(100% - 32px);
+    left: 16px;
+
+    @media (max-width: 500px) {
+      position: absolute;
+      bottom: 16px;
+    }
   }
 }
 

@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { DIALOG_DATA, DIALOG_REF } from 'ngx-zero-dialog';
 
-
 export interface ComponentDialogData {
   name: string;
 }

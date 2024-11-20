@@ -10,17 +10,24 @@
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 500px) {
+    padding: 8px 10px;
+
+    .links {
+      display: none;
+    }
+  }
 }
 
 .logo {
-  font-size: 24px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  font-size: 28px;
   font-family: "Space Grotesk", sans-serif;
 
   .logo-svg {
-    width: 32px;
+    width: 50px;
     height: auto;
   }
 }

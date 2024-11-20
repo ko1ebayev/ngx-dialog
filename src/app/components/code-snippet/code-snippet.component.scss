@@ -12,16 +12,20 @@ pre {
   width: 100%;
   font-family: monospace;
   background: #f6f8fa;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .copy {
   position: absolute;
   cursor: pointer;
   top: 16px;
-  right: 16px;  
+  right: 16px;
 }
 
-
 .copied-msg {
-  color: #22DD22;
+  color: #22dd22;
 }

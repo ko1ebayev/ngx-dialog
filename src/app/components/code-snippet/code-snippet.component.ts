@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Highlight } from 'ngx-highlightjs';
 import { BehaviorSubject, interval } from 'rxjs';
 
@@ -16,14 +11,12 @@ import { BehaviorSubject, interval } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, Highlight],
 })
-export class CodeSnippetComponent implements OnInit {
+export class CodeSnippetComponent {
   readonly code = input.required<string>();
-  readonly language = input.required<'html' | 'javascript' | 'typescript' | 'css'>();
+  readonly language = input.required<
+    'html' | 'javascript' | 'typescript' | 'css'
+  >();
   readonly showCopied = new BehaviorSubject(false);
-
-  constructor() {}
-
-  ngOnInit() {}
 
   copy() {
     navigator.clipboard.writeText(this.code());
